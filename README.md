@@ -2,6 +2,9 @@
 
 ## Building ocelot-wars
 
+[![Build Status](https://api.travis-ci.org/ocelot-wars/ocelot-wars.svg)](https://travis-ci.org/ocelot-wars/ocelot-wars)
+
+
 We use Gradle as the build system with the Gradle Wrapper. To build the project either use
 ```
 ./gradlew
