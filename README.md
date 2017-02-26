@@ -3,7 +3,6 @@
 ## Building ocelot-wars
 
 [![Build Status](https://api.travis-ci.org/ocelot-wars/ocelot-wars.svg)](https://travis-ci.org/ocelot-wars/ocelot-wars)
-
 [![codecov](https://codecov.io/gh/ocelot-wars/ocelot-wars/branch/master/graph/badge.svg)](https://codecov.io/gh/ocelot-wars/ocelot-wars)
 
 
