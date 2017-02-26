@@ -9,7 +9,11 @@ coverage:
 
   status:
     project: yes
+      default:
+        target: 70
     patch: yes
+      default:
+        target: 70
     changes: no
 
 parsers:
