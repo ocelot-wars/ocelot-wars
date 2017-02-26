@@ -18,13 +18,21 @@ public class Unit extends Asset {
 		this.tile = tile;
 	}
 
+	public Position getPosition() {
+		return tile.getPosition();
+	}
+
+	public Resource getLoad() {
+		return load;
+	}
+
 	public void moveTo(Tile target) {
 		tile.removeUnit(this);
 		target.addUnit(this);
 	}
 
-	public Position getPosition() {
-		return tile.getPosition();
+	public void gather() {
+		this.load = tile.removeResource();
 	}
 
 }

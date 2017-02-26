@@ -27,12 +27,11 @@ public class MoveCommandTest {
 	@Before
 	public void before() {
 		playground = new Playground(new Dimension(9, 9));
-
 	}
 
 	@Test
 	public void testMoveRemovesUnitFromOriginTile() throws Exception {
-		playground.putUnit(new Unit(42), pos(4, 4));
+		playground.putUnit(unit42, pos(4, 4));
 		MoveCommand command = new MoveCommand(42, Direction.NORTH);
 		command.execute(playground);
 

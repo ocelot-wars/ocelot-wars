@@ -23,6 +23,12 @@ public class Tile {
 		return this.resource;
 	}
 
+	public Resource removeResource() {
+		Resource resource = this.resource;
+		this.resource = null;
+		return resource;
+	}
+
 	public void addUnit(Unit unit) {
 		unit.setTile(this);
 		units.add(unit);

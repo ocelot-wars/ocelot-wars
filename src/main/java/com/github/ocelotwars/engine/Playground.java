@@ -31,6 +31,11 @@ public class Playground {
 		units.put(unit.getId(), unit);
 	}
 
+	public void putResource(Resource resource, Position position) {
+		Tile tile = getTileAt(position);
+		tile.setResource(resource);
+	}
+
 	public Unit getUnit(int unitId) {
 		return units.get(Integer.valueOf(unitId));
 	}
