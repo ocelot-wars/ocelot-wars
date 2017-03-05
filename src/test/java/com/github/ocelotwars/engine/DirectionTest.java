@@ -1,5 +1,6 @@
 package com.github.ocelotwars.engine;
 
+import static com.almondtools.conmatch.conventions.EnumMatcher.isEnum;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -10,6 +11,11 @@ public class DirectionTest {
 	private final int x = 5;
 	private final int y = 12;
 	private final Position position = new Position(x, y);
+
+    @Test
+    public void testEnum() {
+        assertThat(Direction.class, isEnum().withElements(4));
+    }
 
 	@Test
 	public void testShiftNorth() {

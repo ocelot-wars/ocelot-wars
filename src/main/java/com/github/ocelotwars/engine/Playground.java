@@ -1,6 +1,8 @@
 package com.github.ocelotwars.engine;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Playground {
@@ -8,11 +10,13 @@ public class Playground {
 	private Dimension dimension;
 	private Tile[][] tiles;
 	private Map<Integer, Unit> units;
+	private List<Headquarter> headquarters;
 
 	public Playground(Dimension dimension) {
 		this.dimension = dimension;
 		this.tiles = initTiles(dimension);
 		this.units = new HashMap<>();
+		this.headquarters = new ArrayList<>();
 	}
 
 	private static Tile[][] initTiles(Dimension dimension) {
@@ -31,13 +35,26 @@ public class Playground {
 		units.put(unit.getId(), unit);
 	}
 
-	public void putResource(Resource resource, Position position) {
+    public void putHeadquarter(Headquarter hq, Position position) {
+        Tile tile = getTileAt(position);
+        tile.addHeadquarter(hq);
+        headquarters.add(hq);
+    }
+
+	public void putResource(int resources, Position position) {
 		Tile tile = getTileAt(position);
-		tile.setResource(resource);
+		tile.setResources(resources);
 	}
 
-	public Unit getUnit(int unitId) {
-		return units.get(Integer.valueOf(unitId));
+	public Unit getUnit(Player player, int unitId) {
+		Unit unit = units.get(Integer.valueOf(unitId));
+		if (unit == null) {
+		    throw NoSuchAssetException.forUnit(unitId);
+		}
+		if (!player.equals(unit.getOwner())) {
+		    throw NotUnitOwnerException.forPlayerAndUnit(player, unitId);
+		}
+        return unit;
 	}
 
 	public Tile getTileAt(Position targetPosition) {
@@ -47,5 +64,12 @@ public class Playground {
 	public Position shift(Position position, Direction direction) {
 		return direction.shift(position).normalize(dimension);
 	}
+
+    public Headquarter getHeadQuarter(Player player) {
+        return headquarters.stream()
+            .filter(hq -> player.equals(hq.getOwner()))
+            .findFirst()
+            .orElseThrow(()-> NoSuchAssetException.forHeadquarter(player));
+    }
 
 }

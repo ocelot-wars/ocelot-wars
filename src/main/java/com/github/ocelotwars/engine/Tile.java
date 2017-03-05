@@ -6,44 +6,63 @@ import java.util.List;
 
 public class Tile {
 
-	private final Position position;
-	private Resource resource;
-	private List<Unit> units;
+    private Position position;
+    private int resources;
+    private List<Unit> units;
+    private Headquarter headquarter;
 
-	public Tile(Position position) {
-		this.position = position;
-		this.units = new ArrayList<>();
-	}
+    public Tile(Position position) {
+        this.position = position;
+        this.units = new ArrayList<>();
+    }
 
-	public void setResource(Resource resource) {
-		this.resource = resource;
-	}
+    public void setResources(int resources) {
+        this.resources = resources;
+    }
+    
+    public int getResources() {
+        return resources;
+    }
 
-	public Resource getResource() {
-		return this.resource;
-	}
+    public int removeResource() {
+        if (resources <= 0) {
+            return 0;
+        }
+        resources--;
+        return 1;
+    }
 
-	public Resource removeResource() {
-		Resource resource = this.resource;
-		this.resource = null;
-		return resource;
-	}
+    public void addHeadquarter(Headquarter hq) {
+        hq.setTile(this);
+        headquarter = hq;
+    }
+    
+    public boolean hasHeadquarter(Player player) {
+        if (headquarter == null) {
+            return false;
+        }
+        if (player == null) {
+            return true;
+        } else {
+            return player.equals(headquarter.getOwner());
+        }
+    }
 
-	public void addUnit(Unit unit) {
-		unit.setTile(this);
-		units.add(unit);
-	}
+    public void addUnit(Unit unit) {
+        unit.setTile(this);
+        units.add(unit);
+    }
 
-	public void removeUnit(Unit unit) {
-		units.remove(unit);
-	}
+    public void removeUnit(Unit unit) {
+        units.remove(unit);
+    }
 
-	public List<Unit> getUnits() {
-		return units;
-	}
+    public List<Unit> getUnits() {
+        return units;
+    }
 
-	public Position getPosition() {
-		return position;
-	}
+    public Position getPosition() {
+        return position;
+    }
 
 }

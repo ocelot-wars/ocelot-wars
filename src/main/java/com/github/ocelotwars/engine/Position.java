@@ -3,6 +3,7 @@ package com.github.ocelotwars.engine;
 import java.util.Objects;
 
 public class Position {
+    
 	public final int x;
 	public final int y;
 
