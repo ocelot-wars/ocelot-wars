@@ -5,6 +5,12 @@ import static java.util.stream.Collectors.toList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.ocelotwars.service.report.Asset;
+import com.github.ocelotwars.service.report.Headquarter;
+import com.github.ocelotwars.service.report.Playground;
+import com.github.ocelotwars.service.report.Tile;
+import com.github.ocelotwars.service.report.Unit;
+
 
 
 public class ServiceFacade {

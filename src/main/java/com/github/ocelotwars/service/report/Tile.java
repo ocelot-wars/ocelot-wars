@@ -1,4 +1,4 @@
-package com.github.ocelotwars.service;
+package com.github.ocelotwars.service.report;
 
 import java.util.ArrayList;
 import java.util.List;

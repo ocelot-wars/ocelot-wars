@@ -1,4 +1,4 @@
-package com.github.ocelotwars.service;
+package com.github.ocelotwars.service.report;
 
 public abstract class Asset {
 
@@ -6,5 +6,9 @@ public abstract class Asset {
 
 	public void setPlayer(String player) {
 		this.player = player;
+	}
+	
+	public String getPlayer() {
+		return player;
 	}
 }
