@@ -4,17 +4,17 @@ import java.util.Objects;
 
 public class Position {
     
-	public final int x;
-	public final int y;
+	public int x;
+	public int y;
 
 	public Position(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public Position normalize(Dimension dimension) {
-		int x = positiveModulo(this.x, dimension.width);
-		int y = positiveModulo(this.y, dimension.height);
+	public Position normalize(int width, int height) {
+		int x = positiveModulo(this.x, width);
+		int y = positiveModulo(this.y, height);
 		return new Position(x, y);
 	}
 
