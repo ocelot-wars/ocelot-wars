@@ -47,8 +47,19 @@ on Windows appending the desired command like `test` to the call.
 
 We use [EditorConfig](http://editorconfig.org/) for the basic formatting settings. There are [plugins available](http://editorconfig.org/#download) for most IDEs and editors.
 
-Eclipse formatter could be found in [ocelot-wars-code-conventions.xml](ocelot-wars-code-conventions.xml).
+(Eclipse) configuration [ocelot-wars-code-conventions.xml](ocelot-wars-code-conventions.xml).
+(Others) todo 
 
 ## Git conventions
 
 Prefer rebasing over merging
+
+## IDE hints
+
+(Eclipse) add to favorites:
+- java.util.Collections.*
+- java.util.stream.Collectors.*
+- org.hamcrest.Matchers.*
+- org.junit.Assert.*
+- org.mockito.Mockito.*
+(Others) todo 
