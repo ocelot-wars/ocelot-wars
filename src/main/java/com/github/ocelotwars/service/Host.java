@@ -22,7 +22,7 @@ public class Host extends AbstractVerticle {
 
 	private static final String ACCEPT = "accept";
 	private static final int MINIMAL_REGISTERED_PLAYER_COUNT = 1;
-	private List<Player> registeredPlayers;
+	private List<Player> registeredPlayers = new ArrayList<>();
 	private ScheduledFuture<?> waitForPlayersJob;
 	private ScheduledExecutorService executor;
 	private GameInviter gameRunner;
@@ -31,7 +31,6 @@ public class Host extends AbstractVerticle {
 	public void start() {
 		executor = Executors.newScheduledThreadPool(1);
 		gameRunner = new GameInviter(vertx.createHttpClient(), this::waitForPlayers);
-		registeredPlayers = new ArrayList<>();
 
 		Router router = Router.router(vertx);
 		router.post("/register/:name/:port").handler(this::register);
