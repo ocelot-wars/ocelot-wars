@@ -34,7 +34,7 @@ public class Host extends AbstractVerticle {
 		registeredPlayers = new ArrayList<>();
 
 		Router router = Router.router(vertx);
-		router.post("/register/:name/:host/:port").handler(this::register);
+		router.post("/register/:name/:port").handler(this::register);
 		router.route().failureHandler(this::fail);
 
 		HttpServer server = vertx.createHttpServer();
@@ -59,7 +59,7 @@ public class Host extends AbstractVerticle {
 	protected void register(RoutingContext context) {
 		HttpServerRequest request = context.request();
 		String name = request.getParam("name");
-		String host = request.getParam("host");
+		String host = request.remoteAddress().host();
 		int port = Integer.parseInt(request.getParam("port"));
 		registeredPlayers.removeIf(player -> player.getHost().equals(host) && player.getPort() == port);
 		registeredPlayers.add(new Player(name, host, port));
