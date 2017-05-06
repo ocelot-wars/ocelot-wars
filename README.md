@@ -43,6 +43,12 @@ gradlew.bat
 ```
 on Windows appending the desired command like `test` to the call.
 
-## Formatting settings
+## Code conventions and formatting
 
 We use [EditorConfig](http://editorconfig.org/) for the basic formatting settings. There are [plugins available](http://editorconfig.org/#download) for most IDEs and editors.
+
+Eclipse formatter could be found in [ocelot-wars-code-conventions.xml](ocelot-wars-code-conventions.xml).
+
+## Git conventions
+
+Prefer rebasing over merging
