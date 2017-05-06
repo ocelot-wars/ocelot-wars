@@ -9,7 +9,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.github.ocelotwars.engine.Dimension;
 import com.github.ocelotwars.engine.Direction;
 import com.github.ocelotwars.engine.NoSuchAssetException;
 import com.github.ocelotwars.engine.NotUnitOwnerException;
@@ -31,7 +30,7 @@ public class MoveCommandTest {
 
     @Before
     public void before() {
-        playground = new Playground().init(new Dimension(9, 9));
+        playground = new Playground().init(9, 9);
     }
 
     @Test

@@ -19,11 +19,11 @@ public class PositionTest {
 
 	@Test
 	public void testNormalize() throws Exception {
-		assertThat(new Position(10, 10).normalize(new Dimension(4, 7)), equalTo(new Position(2, 3)));
+		assertThat(new Position(10, 10).normalize(4, 7), equalTo(new Position(2, 3)));
 	}
 
 	@Test
 	public void testNormalizeOnNegativePositions() throws Exception {
-		assertThat(new Position(-10, -10).normalize(new Dimension(4, 7)), equalTo(new Position(2, 4)));
+		assertThat(new Position(-10, -10).normalize(4, 7), equalTo(new Position(2, 4)));
 	}
 }
