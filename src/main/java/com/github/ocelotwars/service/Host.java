@@ -25,12 +25,12 @@ public class Host extends AbstractVerticle {
 	private List<Player> registeredPlayers = new ArrayList<>();
 	private ScheduledFuture<?> waitForPlayersJob;
 	private ScheduledExecutorService executor;
-	private GameInviter gameRunner;
+	private GameInviter gameInviter;
 
 	@Override
 	public void start() {
 		executor = Executors.newScheduledThreadPool(1);
-		gameRunner = new GameInviter(vertx.createHttpClient(), this::waitForPlayers);
+		gameInviter = new GameInviter(vertx.createHttpClient(), this::waitForPlayers);
 
 		Router router = Router.router(vertx);
 		router.post("/register/:name/:port").handler(this::register);
@@ -43,14 +43,14 @@ public class Host extends AbstractVerticle {
 	}
 
 	private void waitForPlayers() {
-		waitForPlayersJob = executor.scheduleWithFixedDelay(this::doWaitForPlayers, 5, 1, TimeUnit.SECONDS);
+		waitForPlayersJob = executor.scheduleWithFixedDelay(this::checkForEnoughPlayers, 5, 1, TimeUnit.SECONDS);
 	}
 
-	protected void doWaitForPlayers() {
+	protected void checkForEnoughPlayers() {
 		// debugging-output
 		System.out.println(registeredPlayers.size());
 		if (registeredPlayers.size() >= MINIMAL_REGISTERED_PLAYER_COUNT) {
-			gameRunner.inviteToGame(registeredPlayers);
+			gameInviter.inviteToGame(registeredPlayers);
 			waitForPlayersJob.cancel(false);
 		}
 	}
