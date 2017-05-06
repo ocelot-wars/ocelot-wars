@@ -43,7 +43,7 @@ public class GameInviter {
 	private void checkStartGame() {
 		// debugging-output
 		System.out.println("participating players: " + participatingPlayers.size());
-		if (participatingPlayers.size() > MINIMAL_PLAYER_COUNT) {
+		if (participatingPlayers.size() >= MINIMAL_PLAYER_COUNT) {
 			new GameRunner(participatingPlayers).start();
 		} else {
 			waitForPlayersRunnable.run();
@@ -55,6 +55,7 @@ public class GameInviter {
 			SocketAddress remoteAddress = response.netSocket().remoteAddress();
 			Optional<Player> player = getPlayerByAddress(remoteAddress);
 			if (player.isPresent()) {
+				// TODO: überprüfen, dass der Player nicht schon da ist
 				participatingPlayers.add(player.get());
 			}
 		}
