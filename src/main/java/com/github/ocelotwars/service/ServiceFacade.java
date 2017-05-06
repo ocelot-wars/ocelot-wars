@@ -11,10 +11,8 @@ import com.github.ocelotwars.service.report.Playground;
 import com.github.ocelotwars.service.report.Tile;
 import com.github.ocelotwars.service.report.Unit;
 
-
-
 public class ServiceFacade {
-	
+
 	public Playground convertPlayground(com.github.ocelotwars.engine.Playground playgroundSrc) {
 		Playground playground = new Playground();
 		playground.setTiles(convertTileMatrix(playgroundSrc.getTiles()));
@@ -23,14 +21,14 @@ public class ServiceFacade {
 
 	public List<List<Tile>> convertTileMatrix(com.github.ocelotwars.engine.Tile[][] tiles) {
 		return Arrays.stream(tiles)
-				.map(this::convertTileArray)
-				.collect(toList());
+			.map(this::convertTileArray)
+			.collect(toList());
 	}
 
 	public List<Tile> convertTileArray(com.github.ocelotwars.engine.Tile[] tiles) {
 		return Arrays.stream(tiles)
-				.map(this::convertTile)
-				.collect(toList());
+			.map(this::convertTile)
+			.collect(toList());
 	}
 
 	public Tile convertTile(com.github.ocelotwars.engine.Tile tileSrc) {
@@ -41,8 +39,8 @@ public class ServiceFacade {
 
 	public List<Asset> convertAssets(List<com.github.ocelotwars.engine.Asset> assets) {
 		return assets.stream()
-				.map(this::convertAsset)
-				.collect(toList());
+			.map(this::convertAsset)
+			.collect(toList());
 	}
 
 	public Asset convertAsset(com.github.ocelotwars.engine.Asset assetSrc) {
