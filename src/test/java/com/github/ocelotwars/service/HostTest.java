@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.github.ocelotwars.engine.Player;
 
@@ -55,7 +55,7 @@ public class HostTest {
 
 		List<Player> players = host.getPlayers();
 		assertThat(players, containsInAnyOrder(new Player(CLIENT_NAME, CLIENT_HOST, CLIENT_PORT),
-				new Player("player2Url", "player2", 8080)));
+			new Player("player2Url", "player2", 8080)));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class HostTest {
 
 		host.checkForEnoughPlayers();
 
-		verify(gameInviter).inviteToGame(Mockito.anyListOf(Player.class));
+		verify(gameInviter).inviteToGame(Mockito.anyList());
 		verify(waitForPlayersJob).cancel(false);
 	}
 
