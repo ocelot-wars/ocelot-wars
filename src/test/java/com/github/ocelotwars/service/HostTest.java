@@ -24,6 +24,7 @@ import io.vertx.ext.web.RoutingContext;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HostTest {
+	private static final int MINIMAL_PLAYER_COUNT = 1;
 	private static final String CLIENT_NAME = "player1";
 	private static final String CLIENT_HOST = "player1Url";
 	private static final int CLIENT_PORT = 8080;
@@ -84,6 +85,7 @@ public class HostTest {
 
 	@Test
 	public void testCheckForEnoughPlayers_notEnoughPlayers() throws Exception {
+		host.setMinimalRegisteredPlayerCount(MINIMAL_PLAYER_COUNT);
 		host.checkForEnoughPlayers();
 
 		Mockito.verifyZeroInteractions(gameInviter, waitForPlayersJob);
@@ -91,6 +93,7 @@ public class HostTest {
 
 	@Test
 	public void testCheckForEnoughPlayers_enoughPlayers() throws Exception {
+		host.setMinimalRegisteredPlayerCount(MINIMAL_PLAYER_COUNT);
 		host.register(createRoutingContext(CLIENT_NAME, CLIENT_HOST, CLIENT_PORT));
 
 		host.checkForEnoughPlayers();

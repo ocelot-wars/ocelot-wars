@@ -21,11 +21,12 @@ import io.vertx.ext.web.RoutingContext;
 public class Host extends AbstractVerticle {
 
 	private static final String ACCEPT = "accept";
-	private static final int MINIMAL_REGISTERED_PLAYER_COUNT = 1;
+	private static final int DEFAULT_MINIMAL_REGISTERED_PLAYER_COUNT = 1;
 	private List<Player> registeredPlayers = new ArrayList<>();
 	private ScheduledFuture<?> waitForPlayersJob;
 	private ScheduledExecutorService executor;
 	private GameInviter gameInviter;
+	private int minimalRegisteredPlayerCount = DEFAULT_MINIMAL_REGISTERED_PLAYER_COUNT;
 
 	@Override
 	public void start() {
@@ -49,7 +50,7 @@ public class Host extends AbstractVerticle {
 	protected void checkForEnoughPlayers() {
 		// debugging-output
 		System.out.println(registeredPlayers.size());
-		if (registeredPlayers.size() >= MINIMAL_REGISTERED_PLAYER_COUNT) {
+		if (registeredPlayers.size() >= minimalRegisteredPlayerCount) {
 			gameInviter.inviteToGame(registeredPlayers);
 			waitForPlayersJob.cancel(false);
 		}
@@ -73,4 +74,9 @@ public class Host extends AbstractVerticle {
 	public List<Player> getPlayers() {
 		return registeredPlayers;
 	}
+
+	public void setMinimalRegisteredPlayerCount(int minimalRegisteredPlayerCount) {
+		this.minimalRegisteredPlayerCount = minimalRegisteredPlayerCount;
+	}
+
 }
