@@ -6,11 +6,10 @@ import com.github.ocelotwars.engine.Player;
 
 public class GameRunner {
 
-	public GameRunner(List<Player> participatingPlayers) {
-		// TODO Auto-generated constructor stub
-	}
+	private List<Player> participatingPlayers;
 
-	public void start() {
+	public void start(List<Player> participatingPlayers) {
+		this.participatingPlayers = participatingPlayers;
 		// setup Playground
 
 		// repeat call to players

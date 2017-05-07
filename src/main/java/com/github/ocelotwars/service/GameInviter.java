@@ -54,7 +54,7 @@ public class GameInviter {
 		// debugging-output
 		System.out.println("participating players: " + participatingPlayers.size());
 		if (participatingPlayers.size() >= minimalPlayerCount) {
-			new GameRunner(participatingPlayers).start();
+			new GameRunner().start(participatingPlayers);
 		} else {
 			waitForPlayersRunnable.run();
 		}
