@@ -3,8 +3,10 @@ package com.github.ocelotwars.service;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +14,6 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -42,12 +43,14 @@ public class GameInviterTest {
 	@Mock
 	private Runnable waitForPlayersRunnable;
 
-	@InjectMocks
+	@Mock
+	private GameRunner gameRunner;
+
 	private GameInviter gameInviter;
 
 	@Before
 	public void setUp() {
-		gameInviter = new GameInviter(httpClient, waitForPlayersRunnable, executor);
+		gameInviter = new GameInviter(httpClient, waitForPlayersRunnable, executor, gameRunner);
 	}
 
 	@Test
@@ -132,7 +135,8 @@ public class GameInviterTest {
 
 		gameInviter.checkStartGame();
 
-		Mockito.verifyZeroInteractions(waitForPlayersRunnable);
+		verify(gameRunner).start(Collections.emptyList());
+		verifyZeroInteractions(waitForPlayersRunnable);
 	}
 
 }

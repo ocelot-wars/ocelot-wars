@@ -19,6 +19,7 @@ public class GameInviter {
 	private static final String ACCEPT = "accept";
 	private static final int DEFAULT_MINIMAL_PLAYER_COUNT = 1;
 
+	private GameRunner gameRunner;
 	private HttpClient httpClient;
 	private ScheduledExecutorService executor;
 	private Runnable waitForPlayersRunnable;
@@ -27,15 +28,17 @@ public class GameInviter {
 	private List<Player> registeredPlayers = new ArrayList<>();
 	private int minimalPlayerCount = DEFAULT_MINIMAL_PLAYER_COUNT;
 
-	protected GameInviter(HttpClient client, Runnable waitForPlayersRunnable, ScheduledExecutorService executor) {
+	protected GameInviter(HttpClient client, Runnable waitForPlayersRunnable, ScheduledExecutorService executor, GameRunner gameRunner) {
 		this(client, waitForPlayersRunnable);
 		this.executor = executor;
+		this.gameRunner = gameRunner;
 	}
 
 	public GameInviter(HttpClient client, Runnable waitForPlayersRunnable) {
 		this.httpClient = client;
 		this.waitForPlayersRunnable = waitForPlayersRunnable;
 		executor = Executors.newScheduledThreadPool(1);
+		gameRunner = new GameRunner();
 	}
 
 	public void inviteToGame(List<Player> registeredPlayers) {
@@ -54,7 +57,7 @@ public class GameInviter {
 		// debugging-output
 		System.out.println("participating players: " + participatingPlayers.size());
 		if (participatingPlayers.size() >= minimalPlayerCount) {
-			new GameRunner().start(participatingPlayers);
+			gameRunner.start(participatingPlayers);
 		} else {
 			waitForPlayersRunnable.run();
 		}
