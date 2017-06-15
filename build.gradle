@@ -1,12 +1,22 @@
-apply plugin: 'java-library'
-apply plugin: 'jacoco'
-
-sourceCompatibility = 1.8
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0-M1'
+    }
+}
 
 repositories {
     jcenter()
     mavenCentral()
 }
+
+apply plugin: 'java-library'
+apply plugin: 'jacoco'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+sourceCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -21,13 +31,32 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
     testImplementation 'com.github.almondtools:conmatch:0.1.11'
+
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.1.0-M1'
+    testCompile 'org.junit.jupiter:junit-jupiter-params:5.1.0-M1'
+    testRuntime 'org.junit.platform:junit-platform-launcher:1.1.0-M1'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.1.0-M1'
+    testRuntime 'org.junit.vintage:junit-vintage-engine:5.1.0-M1'
+
+    testCompileOnly 'org.apiguardian:apiguardian-api:1.0.0'
+}
+
+jacoco {
+    toolVersion = '0.7.9'
+    applyTo junitPlatformTest
 }
 
 jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
+        xml.destination file("${buildDir}/reports/jacoco/report.xml")
+        html.destination file("${buildDir}/reports/jacoco/report-html")
     }
 }
 
-check.dependsOn jacocoTestReport
+junitPlatformTest {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/test.exec")
+    }
+}
