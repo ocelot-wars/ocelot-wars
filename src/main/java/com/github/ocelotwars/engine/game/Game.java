@@ -1,6 +1,9 @@
-package com.github.ocelotwars.engine;
+package com.github.ocelotwars.engine.game;
 
 import java.util.List;
+
+import com.github.ocelotwars.engine.Command;
+import com.github.ocelotwars.engine.Playground;
 
 public class Game {
 

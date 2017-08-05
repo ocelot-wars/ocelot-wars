@@ -1,4 +1,4 @@
-package com.github.ocelotwars.engine;
+package com.github.ocelotwars.engine.game;
 
 import static com.github.ocelotwars.engine.Direction.EAST;
 import static com.github.ocelotwars.engine.Direction.WEST;
@@ -12,9 +12,16 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.github.ocelotwars.engine.Command;
+import com.github.ocelotwars.engine.Headquarter;
+import com.github.ocelotwars.engine.Player;
+import com.github.ocelotwars.engine.Playground;
+import com.github.ocelotwars.engine.Position;
+import com.github.ocelotwars.engine.Unit;
 import com.github.ocelotwars.engine.command.GatherCommand;
 import com.github.ocelotwars.engine.command.MoveCommand;
 import com.github.ocelotwars.engine.command.UnloadCommand;
+import com.github.ocelotwars.engine.game.Game;
 
 public class GameTest {
 	private Player player = new Player("Player", "host", 0);
