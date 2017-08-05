@@ -17,7 +17,7 @@ public class PlaygroundBuilderTest {
 
 	@Test
 	public void createsPlayground_HeadquarterAndUnitForPlayer() throws Exception {
-		Player player = new Player("Player", "host", 0);
+		Player player = new Player("Player");
 		Headquarter headquarter = new Headquarter(player);
 		Unit unit = new Unit(player, 1);
 

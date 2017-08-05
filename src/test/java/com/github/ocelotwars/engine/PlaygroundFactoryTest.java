@@ -9,7 +9,7 @@ public class PlaygroundFactoryTest {
 	@Test
 	public void createPlaygroundFromFile() throws Exception {
 		PlaygroundFactory playgroundFactory = new PlaygroundFactory();
-		Player player = new Player("Test", "test", 0);
+		Player player = new Player("Test");
 		int unitId = 1;
 
 		Playground playground = playgroundFactory.getOnePlayerPlayground(player);

@@ -17,7 +17,7 @@ import com.github.ocelotwars.engine.command.MoveCommand;
 import com.github.ocelotwars.engine.command.UnloadCommand;
 
 public class GameTest {
-	private Player player = new Player("Player", "host", 0);
+	private Player player = new Player("Player");
 	private int unitId = 1;
 
 	@Test
