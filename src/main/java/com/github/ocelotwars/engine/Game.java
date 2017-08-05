@@ -1,15 +1,17 @@
 package com.github.ocelotwars.engine;
 
+import java.util.List;
+
 public class Game {
 
-	private PlaygroundBuilder builder;
+	private Playground playground;
 
-	public Game(PlaygroundBuilder builder) {
-		this.builder = builder;
+	public Game(Playground playground) {
+		this.playground = playground;
 	}
 
-	public Playground initialize() {
-		Playground playground = builder.create();
+	public Playground execute(List<Command> commands) {
+		commands.forEach(command -> command.execute(playground));
 		return playground;
 	}
 
