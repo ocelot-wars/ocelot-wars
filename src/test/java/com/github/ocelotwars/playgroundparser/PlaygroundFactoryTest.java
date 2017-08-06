@@ -17,7 +17,7 @@ public class PlaygroundFactoryTest {
 	@Test
 	public void createPlaygroundFromFile_onePlayer() throws Exception {
 		PlaygroundFactory playgroundFactory = new PlaygroundFactory();
-		Player player = new Player("Test", "test", 0);
+		Player player = new Player("Test");
 		int unitId = 1;
 
 		Playground playground = playgroundFactory.createPlayground(Arrays.asList(player),
@@ -37,8 +37,8 @@ public class PlaygroundFactoryTest {
 	@Test
 	public void createPlaygroundFromFile_twoPlayers() throws Exception {
 		PlaygroundFactory playgroundFactory = new PlaygroundFactory();
-		Player player1 = new Player("Test1", "test", 0);
-		Player player2 = new Player("Test2", "test", 0);
+		Player player1 = new Player("Test1");
+		Player player2 = new Player("Test2");
 		int unitIdOfPlayer1 = 1;
 		int unitIdOfPlayer2 = 2;
 
@@ -62,7 +62,7 @@ public class PlaygroundFactoryTest {
 	@Test
 	public void createPlaygroundFromFile_twoPlayers_notEnoughPlayers() throws Exception {
 		PlaygroundFactory playgroundFactory = new PlaygroundFactory();
-		Player player1 = new Player("Test1", "test", 0);
+		Player player1 = new Player("Test1");
 		int unitIdOfPlayer1 = 1;
 
 		Playground playground = playgroundFactory.createPlayground(Arrays.asList(player1),

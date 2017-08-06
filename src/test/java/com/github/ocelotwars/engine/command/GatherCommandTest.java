@@ -17,8 +17,8 @@ import com.github.ocelotwars.engine.Unit;
 
 public class GatherCommandTest {
 
-    private Player player1 = new Player("1","192.168.0.10", 8080);
-    private Player player2 = new Player("2","192.168.0.11", 8080);
+    private Player player1 = new Player("1");
+    private Player player2 = new Player("2");
     private Unit unit42 = new Unit(player1, 42);
 
 	@Rule
