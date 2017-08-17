@@ -1,7 +1,7 @@
 # Ocelot Wars
 
 This is a host for Ocelot Wars programming competitions.
-In the competition, programmers create bots that participate in Ocelot Wars games via a language agnostic REST-based API.
+In the competition, programmers create bots that participate in Ocelot Wars games via a language agnostic Websocket-based API.
 
 An Ocelot Wars game consists of a two dimensional map containing resources, player units and player bases.
 The objective of the game is to gather as many resources as possible.
