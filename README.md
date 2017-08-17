@@ -16,9 +16,9 @@ The general idea of the programming competition is based on [Mäxchen](https://g
 
 Later iterations of the game will potentially
 
-- differentiate the REST API into
-    - a simple REST API for quick programming competitions (multi-hour)
-    - a more advanced REST API for fine-grained control and longer competitions (multi-day)
+- differentiate the API into
+    - a simple API for quick programming competitions (multi-hour)
+    - a more advanced API for fine-grained control and longer competitions (multi-day)
 - potentially play in space or on earth
 - have a different game goal, e.g. player that survives wins (implies some way of eliminating the other players)
 - have various unit types
