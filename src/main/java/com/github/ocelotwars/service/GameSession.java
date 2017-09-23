@@ -1,7 +1,6 @@
 package com.github.ocelotwars.service;
 
 import static java.util.stream.Collectors.toList;
-import static rx.Observable.timer;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,27 +22,28 @@ import com.github.ocelotwars.service.commands.Unload;
 import io.vertx.core.http.ServerWebSocket;
 import rx.Observable;
 import rx.subjects.PublishSubject;
-import rx.subjects.ReplaySubject;
 
 public class GameSession {
 
 	private int time;
 	private ObjectMapper mapper;
 
-	private Observable<SocketPlayer> players;
-	private PublishSubject<Integer> nextRound;
-	private Observable<Integer> rounds;
+	private List<SocketPlayer> players;
+	private Observable<Integer> round;
 	private PublishSubject<SocketPlayer> winner;
 	private Game game;
 
 	public GameSession(List<SocketPlayer> players, int time) {
+		this(new Game(new Playground()), players, time);
+	}
+
+	public GameSession(Game game, List<SocketPlayer> players, int time) {
 		this.time = time;
 		this.mapper = new ObjectMapper();
-		this.players = Observable.from(players);
-		this.nextRound = PublishSubject.create();
-		this.rounds = nextRound.take(100);
+		this.players = players;
+		this.round = Observable.just(0);
 		this.winner = PublishSubject.create();
-		this.game = new Game(new Playground());
+		this.game = game;
 	}
 
 	private String json(OutMessage msg) {
@@ -55,8 +55,9 @@ public class GameSession {
 	}
 
 	public void notifyPlayers() {
-		players
-			.subscribe(player -> notify(player));
+		for (SocketPlayer player : players) {
+			notify(player);
+		}
 	}
 
 	private void notify(SocketPlayer player) {
@@ -65,25 +66,35 @@ public class GameSession {
 	}
 
 	public GameSession rounds(int no, Observable<SocketMessage> mq) {
-		rounds.subscribe(round -> round(round, mq));
-		rounds.doOnCompleted(() -> {
-			players.first().subscribe(player -> winner.onNext(player));
+		for (int i = 0; i < no; i++) {
+			round = round.flatMap(round -> round(round, mq));
+		}
+		round.subscribe(round -> {
+			winner.onNext(players.get(0)); // TODO return the player that is winner
 		});
-		nextRound.onNext(0);
 		return this;
 	}
 
-	private void round(int round, Observable<SocketMessage> mq) {
-		ReplaySubject<SocketPlayer> done = ReplaySubject.create();
-		timer(time, TimeUnit.SECONDS)
-			.first()
-			.subscribe(time -> done.onCompleted());
+	protected Observable<Integer> round(int round, Observable<SocketMessage> mq) {
+		PublishSubject<Integer> ready = PublishSubject.create();
 		mq
+			.take(time, TimeUnit.SECONDS)
+			.distinct(SocketMessage::getSocket)
 			.filter(msg -> msg.getMessage() instanceof Commands)
-			.subscribe(msg -> doCommands(((Commands) msg.getMessage()).getCommands(), msg.getSocket(), done));
-		done.doOnCompleted(() -> nextRound.onNext(round + 1));
-
+			.doOnUnsubscribe(() -> ready.onNext(round + 1))
+			.subscribe(msg -> executeGame(msg.getSocket(), (Commands) msg.getMessage()));
 		notifyPlayers();
+		return ready;
+	}
+
+	public void executeGame(ServerWebSocket socket, Commands webCommands) {
+			players.stream()
+				.filter(player -> player.getSocket() == socket)
+				.findFirst()
+				.ifPresent(webPlayer -> {
+					List<com.github.ocelotwars.engine.Command> commands = convertCommands(webPlayer, webCommands.getCommands());
+					game.execute(commands);
+				});
 	}
 
 	private List<com.github.ocelotwars.engine.Command> convertCommands(SocketPlayer player, List<Command> commands) {
@@ -104,21 +115,6 @@ public class GameSession {
 		} else {
 			return null;
 		}
-	}
-
-	public void doCommands(List<Command> commands, ServerWebSocket socket, ReplaySubject<SocketPlayer> done) {
-		done
-			.exists(p -> p.getSocket() == socket)
-			.subscribe(existing -> {
-				if (!existing) {
-					players
-						.filter(p -> p.getSocket() == socket)
-						.subscribe(p -> {
-							game.execute(convertCommands(p, commands));
-							done.onNext(p);
-						});
-				}
-			});
 	}
 
 	public Observable<SocketPlayer> winner() {

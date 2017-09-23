@@ -1,5 +1,6 @@
 package com.github.ocelotwars.engine.command;
 
+import static com.almondtools.conmatch.conventions.EqualityMatcher.satisfiesDefaultEquality;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -97,6 +98,14 @@ public class UnloadCommandTest {
 
 		thrown.expect(NotUnitOwnerException.class);
 		command.execute(playground);
+	}
+
+	@Test
+	public void testEquals() throws Exception {
+		assertThat(new UnloadCommand(new Player("Player1"), 42), satisfiesDefaultEquality()
+			.andEqualTo(new UnloadCommand(new Player("Player1"), 42))
+			.andNotEqualTo(new UnloadCommand(new Player("Player2"), 42))
+			.andNotEqualTo(new UnloadCommand(new Player("Player1"), 41)));
 	}
 
 	private Position pos(int x, int y) {

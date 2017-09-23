@@ -54,8 +54,8 @@ public class GameControl extends Subscriber<GameControlMessage> {
 	}
 
 	private void run(List<SocketPlayer> players) {
-		GameSession session = new GameSession(players, 10)
-			.rounds(100, mq);
+		GameSession session = new GameSession(players, 1)
+			.rounds(10, mq);
 		session.winner()
 			.subscribe(player -> mq.onNext(new SocketMessage(new Stop(player))));
 	}

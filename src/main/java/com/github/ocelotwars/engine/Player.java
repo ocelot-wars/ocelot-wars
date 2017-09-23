@@ -32,6 +32,9 @@ public class Player {
 		return this.name.equals(that.name);
 	}
 
-	
+	@Override
+	public String toString() {
+		return name;
+	}
 	
 }

@@ -24,6 +24,7 @@ import com.github.ocelotwars.engine.command.UnloadCommand;
 import com.github.ocelotwars.engine.game.Game;
 
 public class GameTest {
+
 	private Player player = new Player("Player");
 	private int unitId = 1;
 
@@ -37,7 +38,7 @@ public class GameTest {
 		Playground afterExecution = game.execute(commands);
 
 		assertThat(afterExecution.getUnit(player, unitId).getPosition(),
-				is(beforeExecution.getUnit(player, unitId).getPosition()));
+			is(beforeExecution.getUnit(player, unitId).getPosition()));
 	}
 
 	@Test
@@ -75,7 +76,7 @@ public class GameTest {
 
 	private Playground createDefaultPlayground(Player player, int unitId) {
 		Playground beforeExecution = playground().withHeight(32).withWidth(32).withHeadquarter(new Headquarter(player))
-				.withUnit(new Unit(player, unitId)).withResource(new Position(6, 16), 5).create();
+			.withUnit(new Unit(player, unitId)).withResource(new Position(6, 16), 5).create();
 		return beforeExecution;
 	}
 

@@ -14,6 +14,7 @@ import com.github.ocelotwars.engine.Position;
 import com.github.ocelotwars.playgroundparser.PlaygroundFactory;
 
 public class PlaygroundFactoryTest {
+	
 	@Test
 	public void createPlaygroundFromFile_onePlayer() throws Exception {
 		PlaygroundFactory playgroundFactory = new PlaygroundFactory();
@@ -21,7 +22,7 @@ public class PlaygroundFactoryTest {
 		int unitId = 1;
 
 		Playground playground = playgroundFactory.createPlayground(Arrays.asList(player),
-				"src/main/resources/onePlayer");
+			"src/main/resources/onePlayer");
 
 		assertThat(playground.getTiles().length, is(7));
 		assertThat(playground.getTiles()[0].length, is(7));
@@ -43,7 +44,7 @@ public class PlaygroundFactoryTest {
 		int unitIdOfPlayer2 = 2;
 
 		Playground playground = playgroundFactory.createPlayground(Arrays.asList(player1, player2),
-				"src/main/resources/twoPlayers");
+			"src/main/resources/twoPlayers");
 
 		assertThat(playground.getTiles().length, is(7));
 		assertThat(playground.getTiles()[0].length, is(7));
@@ -66,7 +67,7 @@ public class PlaygroundFactoryTest {
 		int unitIdOfPlayer1 = 1;
 
 		Playground playground = playgroundFactory.createPlayground(Arrays.asList(player1),
-				"src/main/resources/twoPlayers");
+			"src/main/resources/twoPlayers");
 
 		assertThat(playground.getTiles().length, is(7));
 		assertThat(playground.getTiles()[0].length, is(7));

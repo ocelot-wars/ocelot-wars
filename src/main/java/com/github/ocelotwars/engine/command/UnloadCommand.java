@@ -22,5 +22,31 @@ public class UnloadCommand implements Command {
 		Headquarter headquarter = playground.getHeadQuarter(player);
 		unit.unload(headquarter);
 	}
+	@Override
+	public int hashCode() {
+		return player.hashCode() * 13
+			+ unitId * 23
+			+7;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		UnloadCommand that = (UnloadCommand) obj;
+		return this.player.equals(that.player)
+			&& this.unitId == that.unitId;
+	}
+
+	@Override
+	public String toString() {
+		return player.toString() + ": " + unitId + " UNLOAD";
+	}
 }
