@@ -21,4 +21,31 @@ public class GatherCommand implements Command {
 		unit.gather();
 	}
 
+	@Override
+	public int hashCode() {
+		return player.hashCode() * 13
+			+ unitId * 23
+			+ 29;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		GatherCommand that = (GatherCommand) obj;
+		return this.player.equals(that.player)
+			&& this.unitId == that.unitId;
+	}
+
+	@Override
+	public String toString() {
+		return player.toString() + ": " + unitId + " GATHER";
+	}
 }

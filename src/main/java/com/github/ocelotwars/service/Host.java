@@ -1,82 +1,60 @@
 package com.github.ocelotwars.service;
 
-import static io.netty.handler.codec.http.HttpResponseStatus.INTERNAL_SERVER_ERROR;
-import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+import static rx.Observable.timer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import com.github.ocelotwars.engine.Player;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerRequest;
-import io.vertx.ext.web.Router;
-import io.vertx.ext.web.RoutingContext;
+import io.vertx.core.http.ServerWebSocket;
+import io.vertx.core.http.WebSocketFrame;
+import rx.subjects.PublishSubject;
 
 public class Host extends AbstractVerticle {
 
-	private static final String ACCEPT = "accept";
-	private static final int DEFAULT_MINIMAL_REGISTERED_PLAYER_COUNT = 1;
-	private List<Player> registeredPlayers = new ArrayList<>();
-	private ScheduledFuture<?> waitForPlayersJob;
-	private ScheduledExecutorService executor;
-	private GameInviter gameInviter;
-	private int minimalRegisteredPlayerCount = DEFAULT_MINIMAL_REGISTERED_PLAYER_COUNT;
+	private PublishSubject<SocketMessage> mq;
+	private GameControl gameControl;
+
+	public Host() {
+		mq = PublishSubject.create();
+		timer(5, TimeUnit.SECONDS)
+			.map(value -> new SocketMessage(new Start()))
+			.subscribe(msg -> mq.onNext(msg));
+		gameControl = new GameControl(mq);
+		gameControl.init();
+	}
 
 	@Override
 	public void start() {
-		executor = Executors.newScheduledThreadPool(1);
-		gameInviter = new GameInviter(vertx.createHttpClient(), this::waitForPlayers);
-
-		Router router = Router.router(vertx);
-		router.post("/register/:name/:port").handler(this::register);
-		router.route().failureHandler(this::fail);
-
 		HttpServer server = vertx.createHttpServer();
-		server.requestHandler(router::accept).listen(8080);
-
-		waitForPlayers();
+		server.websocketHandler(this::websocket).listen(8080);
+		mq.subscribe(
+			msg -> System.out.println("mq: " + msg.getMessage().getClass().getSimpleName()),
+			e -> System.out.println("mq error " + e.getClass().getSimpleName()),
+			() -> {System.out.println("mq completed");}
+		);
 	}
 
-	private void waitForPlayers() {
-		waitForPlayersJob = executor.scheduleWithFixedDelay(this::checkForEnoughPlayers, 5, 1, TimeUnit.SECONDS);
+	public void websocket(ServerWebSocket socket) {
+		socket.frameHandler(frame -> message(frame, socket));
 	}
 
-	protected void checkForEnoughPlayers() {
-		// debugging-output
-		System.out.println(registeredPlayers.size());
-		if (registeredPlayers.size() >= minimalRegisteredPlayerCount) {
-			gameInviter.inviteToGame(registeredPlayers);
-			waitForPlayersJob.cancel(false);
+	public void message(WebSocketFrame frame, ServerWebSocket socket) {
+		String text = frame.textData();
+		Message msg = mapMessage(text);
+		mq.onNext(new SocketMessage(socket, msg));
+	}
+
+	protected Message mapMessage(String message) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.readValue(message, Message.class);
+		} catch (IOException e) {
+			return null;
 		}
-	}
-
-	protected void register(RoutingContext context) {
-		HttpServerRequest request = context.request();
-		String name = request.getParam("name");
-		String host = request.remoteAddress().host();
-		int port = Integer.parseInt(request.getParam("port"));
-		registeredPlayers.removeIf(player -> player.getHost().equals(host) && player.getPort() == port);
-		registeredPlayers.add(new Player(name, host, port));
-
-		context.response().setStatusCode(OK.code()).setStatusMessage(ACCEPT).end();
-	}
-
-	protected void fail(RoutingContext context) {
-		context.response().setStatusCode(INTERNAL_SERVER_ERROR.code()).end();
-	}
-
-	public List<Player> getPlayers() {
-		return registeredPlayers;
-	}
-
-	public void setMinimalRegisteredPlayerCount(int minimalRegisteredPlayerCount) {
-		this.minimalRegisteredPlayerCount = minimalRegisteredPlayerCount;
 	}
 
 }
