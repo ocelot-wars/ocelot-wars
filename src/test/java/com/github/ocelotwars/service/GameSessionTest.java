@@ -1,12 +1,11 @@
 package com.github.ocelotwars.service;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
+import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -16,13 +15,11 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import com.github.ocelotwars.engine.Command;
 import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.command.GatherCommand;
 import com.github.ocelotwars.engine.command.MoveCommand;
@@ -64,12 +61,12 @@ public class GameSessionTest {
 		Commands commands = new Commands(asList(new Move(1, Direction.EAST)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 
 		session.round(0, mq);
 
-		verify(game).execute(matchcommands.capture());
-		assertThat(matchcommands.getValue(), contains(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.EAST)));
+		verify(game).execute(
+			singletonList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.EAST))
+		);
 	}
 
 	@Test
@@ -80,12 +77,10 @@ public class GameSessionTest {
 		Commands commands = new Commands(asList(new Gather(1)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 
 		session.round(0, mq);
 
-		verify(game).execute(matchcommands.capture());
-		assertThat(matchcommands.getValue(), contains(new GatherCommand(new Player("player1"), 1)));
+		verify(game).execute(singletonList(new GatherCommand(new Player("player1"), 1)));
 	}
 
 	@Test
@@ -98,12 +93,10 @@ public class GameSessionTest {
 		Commands commands = new Commands(asList(new Gather(1)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 
 		session.round(0, mq);
 
-		verify(game).execute(matchcommands.capture());
-		assertThat(matchcommands.getValue(), contains(new GatherCommand(new Player("player1"), 1)));
+		verify(game).execute(singletonList(new GatherCommand(new Player("player1"), 1)));
 	}
 
 	@Test
@@ -116,12 +109,10 @@ public class GameSessionTest {
 		Commands commands = new Commands(asList(new Gather(1)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket2, commands));
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 
 		session.round(0, mq);
 
-		verify(game).execute(matchcommands.capture());
-		assertThat(matchcommands.getValue(), contains(new GatherCommand(new Player("player2"), 1)));
+		verify(game).execute(singletonList(new GatherCommand(new Player("player2"), 1)));
 	}
 
 	@Test
@@ -135,15 +126,11 @@ public class GameSessionTest {
 		Commands commands2 = new Commands(asList(new Gather(1)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket2, commands2), new SocketMessage(socket1, commands1));
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 
 		session.round(0, mq);
 
-		verify(game, times(2)).execute(matchcommands.capture());
-		List<List<Command>> allValues = matchcommands.getAllValues();
-		assertThat(allValues, containsInAnyOrder(
-			asList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH)),
-			asList(new GatherCommand(new Player("player2"), 1))));
+		verify(game).execute(singletonList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH)));
+		verify(game).execute(singletonList(new GatherCommand(new Player("player2"), 1)));
 	}
 
 	@Test
@@ -161,15 +148,11 @@ public class GameSessionTest {
 			new SocketMessage(socket1, commands1),
 			new SocketMessage(socket2, commands3));
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 
 		session.round(0, mq);
 
-		verify(game, times(2)).execute(matchcommands.capture());
-		List<List<Command>> allValues = matchcommands.getAllValues();
-		assertThat(allValues, containsInAnyOrder(
-			asList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH)),
-			asList(new GatherCommand(new Player("player2"), 1))));
+		verify(game).execute(singletonList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH)));
+		verify(game).execute(singletonList(new GatherCommand(new Player("player2"), 1)));
 	}
 
 	@Test
@@ -185,15 +168,11 @@ public class GameSessionTest {
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands1), new SocketMessage(socket2, commands2))
 			.zipWith(Observable.interval(3, TimeUnit.SECONDS), (message, time) -> message);
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 
 		session.round(0, mq);
 		scheduler.advanceTimeBy(6, TimeUnit.SECONDS);
 
-		verify(game, times(1)).execute(matchcommands.capture());
-		List<List<Command>> allValues = matchcommands.getAllValues();
-		assertThat(allValues, containsInAnyOrder(
-			asList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH))));
+		verify(game).execute(singletonList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH)));
 	}
 
 	@Test
@@ -224,7 +203,6 @@ public class GameSessionTest {
 		PublishSubject<SocketMessage> mq = PublishSubject.create();
 
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 
 		session.rounds(2, mq);
 
@@ -234,23 +212,19 @@ public class GameSessionTest {
 		scheduler.advanceTimeBy(2, TimeUnit.SECONDS);
 		mq.onNext(new SocketMessage(socket1, commands1));
 
-		verify(game, times(1)).execute(matchcommands.capture());
-		List<List<Command>> commandsRound1 = matchcommands.getAllValues();
-		assertThat(commandsRound1, containsInAnyOrder(
-			asList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH))));
+		verify(game, times(1)).execute(
+		    singletonList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH))
+        );
 
 		Mockito.reset(game, socket1, socket2);
-		matchcommands = ArgumentCaptor.forClass(List.class);
 
 		scheduler.advanceTimeBy(3, TimeUnit.SECONDS);
 		verify(socket1).writeFinalTextFrame("{\"@type\":\"Notify\"}");
 		verify(socket2).writeFinalTextFrame("{\"@type\":\"Notify\"}");
 		mq.onNext(new SocketMessage(socket2, commands2));
 
-		verify(game, times(1)).execute(matchcommands.capture());
-		List<List<Command>> commandsRound2 = matchcommands.getAllValues();
-		assertThat(commandsRound2, containsInAnyOrder(
-			asList(new MoveCommand(new Player("player2"), 1, com.github.ocelotwars.engine.Direction.WEST))));
+		verify(game, times(1)).execute(
+		    singletonList(new MoveCommand(new Player("player2"), 1, com.github.ocelotwars.engine.Direction.WEST)));
 	}
 
 	@Test
@@ -266,10 +240,9 @@ public class GameSessionTest {
 		PublishSubject<SocketMessage> mq = PublishSubject.create();
 
 		GameSession session = new GameSession(game, players, 5);
-		ArgumentCaptor<List<Command>> matchcommands = ArgumentCaptor.forClass(List.class);
 		SocketPlayer[] winner = new SocketPlayer[1];
 		session.winner().subscribe(p -> {winner[0] = p;});
-		
+
 		session.rounds(2, mq);
 
 		scheduler.advanceTimeBy(3, TimeUnit.SECONDS);
@@ -277,16 +250,13 @@ public class GameSessionTest {
 		scheduler.advanceTimeBy(3, TimeUnit.SECONDS);
 		mq.onNext(new SocketMessage(socket2, commands2));
 
-		verify(game, times(2)).execute(matchcommands.capture());
-		List<List<Command>> commandsRound2 = matchcommands.getAllValues();
-		assertThat(commandsRound2, contains(
-			asList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH)),
-			asList(new MoveCommand(new Player("player2"), 1, com.github.ocelotwars.engine.Direction.WEST))));
-		
+		verify(game).execute(singletonList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH)));
+		verify(game).execute(singletonList(new MoveCommand(new Player("player2"), 1, com.github.ocelotwars.engine.Direction.WEST)));
+
 		assertThat(winner[0], nullValue());
-		
+
 		scheduler.advanceTimeBy(4, TimeUnit.SECONDS);
-		
+
 		assertThat(winner[0], notNullValue());
 	}
 
