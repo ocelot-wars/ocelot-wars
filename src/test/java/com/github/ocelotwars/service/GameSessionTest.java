@@ -1,6 +1,5 @@
 package com.github.ocelotwars.service;
 
-import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -58,7 +57,7 @@ public class GameSessionTest {
 	public void testRound_CommandsMove() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
-		Commands commands = new Commands(asList(new Move(1, Direction.EAST)));
+		Commands commands = new Commands(singletonList(new Move(1, Direction.EAST)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
 		GameSession session = new GameSession(game, players, 5);
 
@@ -74,7 +73,7 @@ public class GameSessionTest {
 	public void testRound_CommandsGather() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
-		Commands commands = new Commands(asList(new Gather(1)));
+		Commands commands = new Commands(singletonList(new Gather(1)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
 		GameSession session = new GameSession(game, players, 5);
 
@@ -90,7 +89,7 @@ public class GameSessionTest {
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
 		players.add(new SocketPlayer("player2", socket2));
-		Commands commands = new Commands(asList(new Gather(1)));
+		Commands commands = new Commands(singletonList(new Gather(1)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
 		GameSession session = new GameSession(game, players, 5);
 
@@ -106,7 +105,7 @@ public class GameSessionTest {
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
 		players.add(new SocketPlayer("player2", socket2));
-		Commands commands = new Commands(asList(new Gather(1)));
+		Commands commands = new Commands(singletonList(new Gather(1)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket2, commands));
 		GameSession session = new GameSession(game, players, 5);
 
@@ -122,8 +121,8 @@ public class GameSessionTest {
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
 		players.add(new SocketPlayer("player2", socket2));
-		Commands commands1 = new Commands(asList(new Move(1, Direction.NORTH)));
-		Commands commands2 = new Commands(asList(new Gather(1)));
+		Commands commands1 = new Commands(singletonList(new Move(1, Direction.NORTH)));
+		Commands commands2 = new Commands(singletonList(new Gather(1)));
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket2, commands2), new SocketMessage(socket1, commands1));
 		GameSession session = new GameSession(game, players, 5);
 
@@ -140,9 +139,9 @@ public class GameSessionTest {
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
 		players.add(new SocketPlayer("player2", socket2));
-		Commands commands1 = new Commands(asList(new Move(1, Direction.NORTH)));
-		Commands commands2 = new Commands(asList(new Gather(1)));
-		Commands commands3 = new Commands(asList(new Unload(1)));
+		Commands commands1 = new Commands(singletonList(new Move(1, Direction.NORTH)));
+		Commands commands2 = new Commands(singletonList(new Gather(1)));
+		Commands commands3 = new Commands(singletonList(new Unload(1)));
 		Observable<SocketMessage> mq = Observable.just(
 			new SocketMessage(socket2, commands2),
 			new SocketMessage(socket1, commands1),
@@ -162,8 +161,8 @@ public class GameSessionTest {
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
 		players.add(new SocketPlayer("player2", socket2));
-		Commands commands1 = new Commands(asList(new Move(1, Direction.NORTH)));
-		Commands commands2 = new Commands(asList(new Gather(1)));
+		Commands commands1 = new Commands(singletonList(new Move(1, Direction.NORTH)));
+		Commands commands2 = new Commands(singletonList(new Gather(1)));
 
 		Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands1), new SocketMessage(socket2, commands2))
 			.zipWith(Observable.interval(3, TimeUnit.SECONDS), (message, time) -> message);
@@ -197,8 +196,8 @@ public class GameSessionTest {
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
 		players.add(new SocketPlayer("player2", socket2));
-		Commands commands1 = new Commands(asList(new Move(1, Direction.NORTH)));
-		Commands commands2 = new Commands(asList(new Move(1, Direction.WEST)));
+		Commands commands1 = new Commands(singletonList(new Move(1, Direction.NORTH)));
+		Commands commands2 = new Commands(singletonList(new Move(1, Direction.WEST)));
 
 		PublishSubject<SocketMessage> mq = PublishSubject.create();
 
@@ -234,8 +233,8 @@ public class GameSessionTest {
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
 		players.add(new SocketPlayer("player2", socket2));
-		Commands commands1 = new Commands(asList(new Move(1, Direction.NORTH)));
-		Commands commands2 = new Commands(asList(new Move(1, Direction.WEST)));
+		Commands commands1 = new Commands(singletonList(new Move(1, Direction.NORTH)));
+		Commands commands2 = new Commands(singletonList(new Move(1, Direction.WEST)));
 
 		PublishSubject<SocketMessage> mq = PublishSubject.create();
 
