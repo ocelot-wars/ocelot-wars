@@ -3,9 +3,6 @@ package com.github.ocelotwars.service;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
-
-import org.junit.jupiter.api.Test;
-
 import com.github.ocelotwars.engine.Command;
 import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.command.GatherCommand;
@@ -15,6 +12,7 @@ import com.github.ocelotwars.service.commands.Direction;
 import com.github.ocelotwars.service.commands.Gather;
 import com.github.ocelotwars.service.commands.Move;
 import com.github.ocelotwars.service.commands.Unload;
+import org.junit.jupiter.api.Test;
 
 class CommandFactoryTest {
 
