@@ -1,6 +1,14 @@
+# Gradle stuff
 .gradle/
 build/
+
+# Eclipse stuff
 /bin/
 /.settings/
 /.classpath
 /.project
+
+# IntelliJ stuff
+.idea/
+ocelot-wars.iml
+out/
