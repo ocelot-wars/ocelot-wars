@@ -1,10 +1,10 @@
 package com.github.ocelotwars.service;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
-import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -53,7 +53,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRound_CommandsMove() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
@@ -69,7 +68,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRound_CommandsGather() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		players.add(new SocketPlayer("player1", socket1));
@@ -83,7 +81,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRound_TwoPlayers_CommandsForPlayer1() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
@@ -99,7 +96,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRound_TwoPlayers_CommandsForPlayer2() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
@@ -115,7 +111,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRound_TwoPlayers_CommandsForPlayer12() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
@@ -133,7 +128,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRound_TwoPlayers_CommandsForIllegalSecondMessage_() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
@@ -155,7 +149,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRound_TwoPlayers_CommandsWithTimeout() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
@@ -190,7 +183,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRounds_2rounds_runInSequence() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
@@ -227,7 +219,6 @@ public class GameSessionTest {
 	}
 
 	@Test
-	@SuppressWarnings("unchecked")
 	public void testRounds_2rounds_terminatesWithWinner() throws Exception {
 		ServerWebSocket socket1 = Mockito.mock(ServerWebSocket.class);
 		ServerWebSocket socket2 = Mockito.mock(ServerWebSocket.class);
