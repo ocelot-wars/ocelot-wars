@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.github.ocelotwars.engine.Position;
 
 public class SerializedPlayground {

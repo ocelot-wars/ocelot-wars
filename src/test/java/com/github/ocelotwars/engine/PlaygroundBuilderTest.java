@@ -3,7 +3,6 @@ package com.github.ocelotwars.engine;
 import static com.github.ocelotwars.engine.PlaygroundBuilder.playground;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-
 import org.junit.Test;
 
 public class PlaygroundBuilderTest {

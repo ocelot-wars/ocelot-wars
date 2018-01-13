@@ -3,7 +3,6 @@ package com.github.ocelotwars.engine;
 import static com.almondtools.conmatch.conventions.EnumMatcher.isEnum;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-
 import org.junit.Test;
 
 public class DirectionTest {

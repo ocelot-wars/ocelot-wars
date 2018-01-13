@@ -6,19 +6,9 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
 import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.command.GatherCommand;
 import com.github.ocelotwars.engine.command.MoveCommand;
@@ -27,7 +17,13 @@ import com.github.ocelotwars.service.commands.Direction;
 import com.github.ocelotwars.service.commands.Gather;
 import com.github.ocelotwars.service.commands.Move;
 import com.github.ocelotwars.service.commands.Unload;
-
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import io.vertx.core.http.ServerWebSocket;
 import rx.Observable;
 import rx.plugins.RxJavaHooks;

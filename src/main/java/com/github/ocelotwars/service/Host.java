@@ -1,12 +1,9 @@
 package com.github.ocelotwars.service;
 
 import static rx.Observable.timer;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.ServerWebSocket;

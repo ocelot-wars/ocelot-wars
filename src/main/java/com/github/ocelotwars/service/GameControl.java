@@ -1,7 +1,6 @@
 package com.github.ocelotwars.service;
 
 import java.util.List;
-
 import rx.Subscriber;
 import rx.subjects.PublishSubject;
 

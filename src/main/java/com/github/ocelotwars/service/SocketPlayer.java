@@ -1,7 +1,6 @@
 package com.github.ocelotwars.service;
 
 import com.github.ocelotwars.engine.Player;
-
 import io.vertx.core.http.ServerWebSocket;
 
 public class SocketPlayer {

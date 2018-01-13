@@ -2,7 +2,6 @@ package com.github.ocelotwars.service;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import io.vertx.core.http.ServerWebSocket;
 
 public class PlayerRegistry {

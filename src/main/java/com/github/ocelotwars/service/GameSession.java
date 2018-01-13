@@ -1,11 +1,9 @@
 package com.github.ocelotwars.service;
 
 import static java.util.stream.Collectors.toList;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.Playground;
@@ -18,7 +16,6 @@ import com.github.ocelotwars.service.commands.Direction;
 import com.github.ocelotwars.service.commands.Gather;
 import com.github.ocelotwars.service.commands.Move;
 import com.github.ocelotwars.service.commands.Unload;
-
 import io.vertx.core.http.ServerWebSocket;
 import rx.Observable;
 import rx.subjects.PublishSubject;

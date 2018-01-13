@@ -1,10 +1,8 @@
 package com.github.ocelotwars.playgroundparser;
 
 import static java.lang.Integer.valueOf;
-
 import java.util.Iterator;
 import java.util.List;
-
 import com.github.ocelotwars.engine.Headquarter;
 import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.Playground;

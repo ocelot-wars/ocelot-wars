@@ -6,12 +6,8 @@ import static com.github.ocelotwars.engine.PlaygroundBuilder.playground;
 import static java.util.Collections.emptyList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Test;
-
 import com.github.ocelotwars.engine.Command;
 import com.github.ocelotwars.engine.Headquarter;
 import com.github.ocelotwars.engine.Player;
@@ -21,7 +17,7 @@ import com.github.ocelotwars.engine.Unit;
 import com.github.ocelotwars.engine.command.GatherCommand;
 import com.github.ocelotwars.engine.command.MoveCommand;
 import com.github.ocelotwars.engine.command.UnloadCommand;
-import com.github.ocelotwars.engine.game.Game;
+import org.junit.Test;
 
 public class GameTest {
 

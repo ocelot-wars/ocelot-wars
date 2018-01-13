@@ -2,7 +2,6 @@ package com.github.ocelotwars.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.github.ocelotwars.service.commands.Command;
 
 public class Commands implements Message {

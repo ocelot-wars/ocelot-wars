@@ -2,16 +2,11 @@ package com.github.ocelotwars.playgroundparser;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-
 import java.util.Arrays;
-
-import org.junit.Test;
-
 import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.Playground;
 import com.github.ocelotwars.engine.Position;
-
-import com.github.ocelotwars.playgroundparser.PlaygroundFactory;
+import org.junit.Test;
 
 public class PlaygroundFactoryTest {
 
