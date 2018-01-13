@@ -5,17 +5,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.Playground;
-import com.github.ocelotwars.engine.command.GatherCommand;
-import com.github.ocelotwars.engine.command.MoveCommand;
-import com.github.ocelotwars.engine.command.UnloadCommand;
 import com.github.ocelotwars.engine.game.Game;
 import com.github.ocelotwars.service.commands.Command;
-import com.github.ocelotwars.service.commands.Direction;
-import com.github.ocelotwars.service.commands.Gather;
-import com.github.ocelotwars.service.commands.Move;
-import com.github.ocelotwars.service.commands.Unload;
 import io.vertx.core.http.ServerWebSocket;
 import rx.Observable;
 import rx.subjects.PublishSubject;
@@ -95,23 +87,10 @@ public class GameSession {
     }
 
     private List<com.github.ocelotwars.engine.Command> convertCommands(SocketPlayer player, List<Command> commands) {
+        CommandFactory commandFactory = new CommandFactory(player.getPlayer());
         return commands.stream()
-            .map(command -> convertCommand(command, player.getPlayer()))
+            .map(commandFactory::convertCommand)
             .collect(toList());
-    }
-
-    private com.github.ocelotwars.engine.Command convertCommand(Command command, Player player) {
-        if (command instanceof Gather) {
-            return new GatherCommand(player, command.getUnitId());
-        } else if (command instanceof Move) {
-            Direction direction = ((Move) command).getDirection();
-            com.github.ocelotwars.engine.Direction dir = com.github.ocelotwars.engine.Direction.valueOf(direction.name());
-            return new MoveCommand(player, command.getUnitId(), dir);
-        } else if (command instanceof Unload) {
-            return new UnloadCommand(player, command.getUnitId());
-        } else {
-            return null;
-        }
     }
 
     public Observable<SocketPlayer> winner() {
