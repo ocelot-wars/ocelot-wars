@@ -19,97 +19,97 @@ import com.github.ocelotwars.engine.Unit;
 
 public class UnloadCommandTest {
 
-	private Player player1 = new Player("1");
-	private Player player2 = new Player("2");
-	private Headquarter hq1 = new Headquarter(player1);
-	private Unit unit42 = new Unit(player1, 42);
+    private Player player1 = new Player("1");
+    private Player player2 = new Player("2");
+    private Headquarter hq1 = new Headquarter(player1);
+    private Unit unit42 = new Unit(player1, 42);
 
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
-	private Playground playground;
+    private Playground playground;
 
-	@Before
-	public void before() {
-		playground = new Playground().init(9, 9);
+    @Before
+    public void before() {
+        playground = new Playground().init(9, 9);
 
-	}
+    }
 
-	@Test
-	public void testUnloadOnUnitAndHqWithResourceTransfersResource() throws Exception {
-		playground.putUnit(unit42, pos(4, 4));
-		unit42.setLoad(1);
-		playground.putHeadquarter(hq1, pos(4, 4));
+    @Test
+    public void testUnloadOnUnitAndHqWithResourceTransfersResource() throws Exception {
+        playground.putUnit(unit42, pos(4, 4));
+        unit42.setLoad(1);
+        playground.putHeadquarter(hq1, pos(4, 4));
 
-		UnloadCommand command = new UnloadCommand(player1, 42);
-		command.execute(playground);
+        UnloadCommand command = new UnloadCommand(player1, 42);
+        command.execute(playground);
 
-		assertThat(unit42.getLoad(), equalTo(0));
-		assertThat(hq1.getResources(), equalTo(1));
-	}
+        assertThat(unit42.getLoad(), equalTo(0));
+        assertThat(hq1.getResources(), equalTo(1));
+    }
 
-	@Test
-	public void testUnloadOnUnitAndNoHqInRangeWithResourceTransfersResource() throws Exception {
-		playground.putUnit(unit42, pos(4, 4));
-		unit42.setLoad(1);
-		playground.putHeadquarter(hq1, pos(4, 3));
+    @Test
+    public void testUnloadOnUnitAndNoHqInRangeWithResourceTransfersResource() throws Exception {
+        playground.putUnit(unit42, pos(4, 4));
+        unit42.setLoad(1);
+        playground.putHeadquarter(hq1, pos(4, 3));
 
-		UnloadCommand command = new UnloadCommand(player1, 42);
-		command.execute(playground);
+        UnloadCommand command = new UnloadCommand(player1, 42);
+        command.execute(playground);
 
-		assertThat(unit42.getLoad(), equalTo(1));
-		assertThat(hq1.getResources(), equalTo(0));
-	}
+        assertThat(unit42.getLoad(), equalTo(1));
+        assertThat(hq1.getResources(), equalTo(0));
+    }
 
-	@Test
-	public void testGatherOnUnitWithoutResourceTransfersNoResource() throws Exception {
-		playground.putUnit(unit42, pos(4, 4));
-		playground.putHeadquarter(hq1, pos(4, 4));
+    @Test
+    public void testGatherOnUnitWithoutResourceTransfersNoResource() throws Exception {
+        playground.putUnit(unit42, pos(4, 4));
+        playground.putHeadquarter(hq1, pos(4, 4));
 
-		UnloadCommand command = new UnloadCommand(player1, 42);
-		command.execute(playground);
+        UnloadCommand command = new UnloadCommand(player1, 42);
+        command.execute(playground);
 
-		assertThat(unit42.getLoad(), equalTo(0));
-		assertThat(hq1.getResources(), equalTo(0));
-	}
+        assertThat(unit42.getLoad(), equalTo(0));
+        assertThat(hq1.getResources(), equalTo(0));
+    }
 
-	@Test
-	public void testUnloadOnUnitAndNoHqThrowsException() throws Exception {
-		playground.putUnit(unit42, pos(4, 4));
-		unit42.setLoad(1);
-		UnloadCommand command = new UnloadCommand(player1, 42);
+    @Test
+    public void testUnloadOnUnitAndNoHqThrowsException() throws Exception {
+        playground.putUnit(unit42, pos(4, 4));
+        unit42.setLoad(1);
+        UnloadCommand command = new UnloadCommand(player1, 42);
 
-		thrown.expect(NoSuchAssetException.class);
-		command.execute(playground);
-	}
+        thrown.expect(NoSuchAssetException.class);
+        command.execute(playground);
+    }
 
-	@Test
-	public void testGatherOnNoUnitThrowsException() throws Exception {
-		UnloadCommand command = new UnloadCommand(player1, 42);
+    @Test
+    public void testGatherOnNoUnitThrowsException() throws Exception {
+        UnloadCommand command = new UnloadCommand(player1, 42);
 
-		thrown.expect(NoSuchAssetException.class);
-		command.execute(playground);
-	}
+        thrown.expect(NoSuchAssetException.class);
+        command.execute(playground);
+    }
 
-	@Test
-	public void testGatherOnForeignUnitThrowsException() throws Exception {
-		playground.putUnit(unit42, pos(4, 4));
-		UnloadCommand command = new UnloadCommand(player2, 42);
+    @Test
+    public void testGatherOnForeignUnitThrowsException() throws Exception {
+        playground.putUnit(unit42, pos(4, 4));
+        UnloadCommand command = new UnloadCommand(player2, 42);
 
-		thrown.expect(NotUnitOwnerException.class);
-		command.execute(playground);
-	}
+        thrown.expect(NotUnitOwnerException.class);
+        command.execute(playground);
+    }
 
-	@Test
-	public void testEquals() throws Exception {
-		assertThat(new UnloadCommand(new Player("Player1"), 42), satisfiesDefaultEquality()
-			.andEqualTo(new UnloadCommand(new Player("Player1"), 42))
-			.andNotEqualTo(new UnloadCommand(new Player("Player2"), 42))
-			.andNotEqualTo(new UnloadCommand(new Player("Player1"), 41)));
-	}
+    @Test
+    public void testEquals() throws Exception {
+        assertThat(new UnloadCommand(new Player("Player1"), 42), satisfiesDefaultEquality()
+            .andEqualTo(new UnloadCommand(new Player("Player1"), 42))
+            .andNotEqualTo(new UnloadCommand(new Player("Player2"), 42))
+            .andNotEqualTo(new UnloadCommand(new Player("Player1"), 41)));
+    }
 
-	private Position pos(int x, int y) {
-		return new Position(x, y);
-	}
+    private Position pos(int x, int y) {
+        return new Position(x, y);
+    }
 
 }

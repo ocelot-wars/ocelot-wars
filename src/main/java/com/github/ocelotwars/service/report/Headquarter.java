@@ -5,11 +5,11 @@ public class Headquarter extends Asset {
     private int resources;
 
     public int getResources() {
-		return resources;
-	}
-    
+        return resources;
+    }
+
     public void setResources(int resources) {
-		this.resources = resources;
-	}
-    
+        this.resources = resources;
+    }
+
 }

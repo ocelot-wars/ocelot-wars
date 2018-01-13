@@ -7,15 +7,15 @@ import com.github.ocelotwars.engine.Playground;
 
 public class Game {
 
-	private Playground playground;
+    private Playground playground;
 
-	public Game(Playground playground) {
-		this.playground = playground;
-	}
+    public Game(Playground playground) {
+        this.playground = playground;
+    }
 
-	public Playground execute(List<Command> commands) {
-		commands.forEach(command -> command.execute(playground));
-		return playground;
-	}
+    public Playground execute(List<Command> commands) {
+        commands.forEach(command -> command.execute(playground));
+        return playground;
+    }
 
 }

@@ -25,63 +25,63 @@ import com.github.ocelotwars.engine.game.Game;
 
 public class GameTest {
 
-	private Player player = new Player("Player");
-	private int unitId = 1;
+    private Player player = new Player("Player");
+    private int unitId = 1;
 
-	@Test
-	public void execute_EmptyListOfCommands() throws Exception {
-		Playground beforeExecution = createDefaultPlayground(player, unitId);
-		Game game = new Game(beforeExecution);
+    @Test
+    public void execute_EmptyListOfCommands() throws Exception {
+        Playground beforeExecution = createDefaultPlayground(player, unitId);
+        Game game = new Game(beforeExecution);
 
-		List<Command> commands = emptyList();
+        List<Command> commands = emptyList();
 
-		Playground afterExecution = game.execute(commands);
+        Playground afterExecution = game.execute(commands);
 
-		assertThat(afterExecution.getUnit(player, unitId).getPosition(),
-			is(beforeExecution.getUnit(player, unitId).getPosition()));
-	}
+        assertThat(afterExecution.getUnit(player, unitId).getPosition(),
+            is(beforeExecution.getUnit(player, unitId).getPosition()));
+    }
 
-	@Test
-	public void execute_OneMoveRight() throws Exception {
+    @Test
+    public void execute_OneMoveRight() throws Exception {
 
-		Playground beforeExecution = createDefaultPlayground(player, unitId);
-		Game game = new Game(beforeExecution);
+        Playground beforeExecution = createDefaultPlayground(player, unitId);
+        Game game = new Game(beforeExecution);
 
-		List<Command> commands = new ArrayList<>();
-		commands.add(new MoveCommand(player, unitId, EAST));
+        List<Command> commands = new ArrayList<>();
+        commands.add(new MoveCommand(player, unitId, EAST));
 
-		Playground afterExecution = game.execute(commands);
+        Playground afterExecution = game.execute(commands);
 
-		assertThat(afterExecution.getUnit(player, unitId).getPosition(), is(new Position(5, 16)));
-	}
+        assertThat(afterExecution.getUnit(player, unitId).getPosition(), is(new Position(5, 16)));
+    }
 
-	@Test
-	public void execute_gatheringOfResource() throws Exception {
+    @Test
+    public void execute_gatheringOfResource() throws Exception {
 
-		Playground beforeExecution = createDefaultPlayground(player, unitId);
-		Game game = new Game(beforeExecution);
+        Playground beforeExecution = createDefaultPlayground(player, unitId);
+        Game game = new Game(beforeExecution);
 
-		List<Command> commands = new ArrayList<>();
-		commands.add(new MoveCommand(player, unitId, EAST));
-		commands.add(new MoveCommand(player, unitId, EAST));
-		commands.add(new GatherCommand(player, unitId));
-		commands.add(new MoveCommand(player, unitId, WEST));
-		commands.add(new MoveCommand(player, unitId, WEST));
-		commands.add(new UnloadCommand(player, unitId));
+        List<Command> commands = new ArrayList<>();
+        commands.add(new MoveCommand(player, unitId, EAST));
+        commands.add(new MoveCommand(player, unitId, EAST));
+        commands.add(new GatherCommand(player, unitId));
+        commands.add(new MoveCommand(player, unitId, WEST));
+        commands.add(new MoveCommand(player, unitId, WEST));
+        commands.add(new UnloadCommand(player, unitId));
 
-		assertThat(beforeExecution.getHeadQuarter(player).getResources(), is(0));
-		Playground afterExecution = game.execute(commands);
-		assertThat(afterExecution.getHeadQuarter(player).getResources(), is(1));
-	}
+        assertThat(beforeExecution.getHeadQuarter(player).getResources(), is(0));
+        Playground afterExecution = game.execute(commands);
+        assertThat(afterExecution.getHeadQuarter(player).getResources(), is(1));
+    }
 
-	private Playground createDefaultPlayground(Player player, int unitId) {
-		Playground beforeExecution = playground().withHeight(32).withWidth(32).withHeadquarter(new Headquarter(player))
-			.withUnit(new Unit(player, unitId)).withResource(new Position(6, 16), 5).create();
-		return beforeExecution;
-	}
+    private Playground createDefaultPlayground(Player player, int unitId) {
+        Playground beforeExecution = playground().withHeight(32).withWidth(32).withHeadquarter(new Headquarter(player))
+            .withUnit(new Unit(player, unitId)).withResource(new Position(6, 16), 5).create();
+        return beforeExecution;
+    }
 
-	// Game kann Commands verarbeiten
+    // Game kann Commands verarbeiten
 
-	// Game hat Endbedingung
+    // Game hat Endbedingung
 
 }

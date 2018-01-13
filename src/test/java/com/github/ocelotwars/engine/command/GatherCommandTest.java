@@ -22,27 +22,28 @@ public class GatherCommandTest {
     private Player player2 = new Player("2");
     private Unit unit42 = new Unit(player1, 42);
 
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
-	private Playground playground;
+    private Playground playground;
 
-	@Before
-	public void before() {
-		playground = new Playground().init(9, 9);;
-	}
+    @Before
+    public void before() {
+        playground = new Playground().init(9, 9);
+        ;
+    }
 
-	@Test
-	public void testGatherOnUnitWithResourceTransfersResource() throws Exception {
-		playground.putUnit(unit42, pos(4, 4));
-		playground.putResource(1, pos(4, 4));
+    @Test
+    public void testGatherOnUnitWithResourceTransfersResource() throws Exception {
+        playground.putUnit(unit42, pos(4, 4));
+        playground.putResource(1, pos(4, 4));
 
-		GatherCommand command = new GatherCommand(player1, 42);
-		command.execute(playground);
+        GatherCommand command = new GatherCommand(player1, 42);
+        command.execute(playground);
 
-		assertThat(unit42.getLoad(), equalTo(1));
-		assertThat(playground.getTileAt(pos(4, 4)).getResources(), equalTo(0));
-	}
+        assertThat(unit42.getLoad(), equalTo(1));
+        assertThat(playground.getTileAt(pos(4, 4)).getResources(), equalTo(0));
+    }
 
     @Test
     public void testGatherOnLoadedUnitTransfersNoResource() throws Exception {
@@ -57,24 +58,24 @@ public class GatherCommandTest {
         assertThat(playground.getTileAt(pos(4, 4)).getResources(), equalTo(1));
     }
 
-	@Test
-	public void testGatherOnUnitWithoutResourceTransfersNoResource() throws Exception {
-		playground.putUnit(unit42, pos(4, 4));
+    @Test
+    public void testGatherOnUnitWithoutResourceTransfersNoResource() throws Exception {
+        playground.putUnit(unit42, pos(4, 4));
 
-		GatherCommand command = new GatherCommand(player1, 42);
-		command.execute(playground);
+        GatherCommand command = new GatherCommand(player1, 42);
+        command.execute(playground);
 
-		assertThat(unit42.getLoad(), equalTo(0));
-		assertThat(playground.getTileAt(pos(4, 4)).getResources(), equalTo(0));
-	}
+        assertThat(unit42.getLoad(), equalTo(0));
+        assertThat(playground.getTileAt(pos(4, 4)).getResources(), equalTo(0));
+    }
 
-	@Test
-	public void testGatherOnNoUnitThrowsException() throws Exception {
-		GatherCommand command = new GatherCommand(player1, 42);
-		
-		thrown.expect(NoSuchAssetException.class);
-		command.execute(playground);
-	}
+    @Test
+    public void testGatherOnNoUnitThrowsException() throws Exception {
+        GatherCommand command = new GatherCommand(player1, 42);
+
+        thrown.expect(NoSuchAssetException.class);
+        command.execute(playground);
+    }
 
     @Test
     public void testGatherOnForeignUnitThrowsException() throws Exception {
@@ -86,15 +87,15 @@ public class GatherCommandTest {
     }
 
     private Position pos(int x, int y) {
-		return new Position(x, y);
-	}
+        return new Position(x, y);
+    }
 
-	@Test
-	public void testEquals() throws Exception {
-		assertThat(new GatherCommand(new Player("Player1"), 42), satisfiesDefaultEquality()
-			.andEqualTo(new GatherCommand(new Player("Player1"), 42))
-			.andNotEqualTo(new GatherCommand(new Player("Player2"), 42))
-			.andNotEqualTo(new GatherCommand(new Player("Player1"), 41)));
-	}
+    @Test
+    public void testEquals() throws Exception {
+        assertThat(new GatherCommand(new Player("Player1"), 42), satisfiesDefaultEquality()
+            .andEqualTo(new GatherCommand(new Player("Player1"), 42))
+            .andNotEqualTo(new GatherCommand(new Player("Player2"), 42))
+            .andNotEqualTo(new GatherCommand(new Player("Player1"), 41)));
+    }
 
 }

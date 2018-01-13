@@ -10,26 +10,26 @@ import com.github.ocelotwars.service.commands.Unload;
 
 public class CommandFactory {
 
-	private Player player;
+    private Player player;
 
-	public CommandFactory(Player player) {
-		this.player = player;
-	}
+    public CommandFactory(Player player) {
+        this.player = player;
+    }
 
-	public Command convertCommand(com.github.ocelotwars.service.commands.Command commandSrc) {
-		if (commandSrc instanceof Move) {
-			Move move = (Move) commandSrc;
-			return new MoveCommand(player, move.getUnitId(), convertDirection(move.getDirection()));
-		} else if (commandSrc instanceof Unload) {
-			return new UnloadCommand(player, commandSrc.getUnitId());
-		} else if (commandSrc instanceof Unload) {
-			return new UnloadCommand(player, commandSrc.getUnitId());
-		} else {
-			return Command.NULL;
-		}
-	}
+    public Command convertCommand(com.github.ocelotwars.service.commands.Command commandSrc) {
+        if (commandSrc instanceof Move) {
+            Move move = (Move) commandSrc;
+            return new MoveCommand(player, move.getUnitId(), convertDirection(move.getDirection()));
+        } else if (commandSrc instanceof Unload) {
+            return new UnloadCommand(player, commandSrc.getUnitId());
+        } else if (commandSrc instanceof Unload) {
+            return new UnloadCommand(player, commandSrc.getUnitId());
+        } else {
+            return Command.NULL;
+        }
+    }
 
-	public Direction convertDirection(com.github.ocelotwars.service.commands.Direction direction) {
-		return Direction.valueOf(direction.name());
-	}
+    public Direction convertDirection(com.github.ocelotwars.service.commands.Direction direction) {
+        return Direction.valueOf(direction.name());
+    }
 }

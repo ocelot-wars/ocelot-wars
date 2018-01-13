@@ -4,13 +4,13 @@ import java.util.List;
 
 public class Run implements GameControlMessage {
 
-	private List<SocketPlayer> players;
+    private List<SocketPlayer> players;
 
-	public Run(List<SocketPlayer> players) {
-		this.players = players;
-	}
+    public Run(List<SocketPlayer> players) {
+        this.players = players;
+    }
 
-	public List<SocketPlayer> getPlayers() {
-		return players;
-	}
+    public List<SocketPlayer> getPlayers() {
+        return players;
+    }
 }
