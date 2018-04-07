@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.Playground;
 import com.github.ocelotwars.engine.game.Game;
+import com.github.ocelotwars.playgroundparser.PlaygroundFactory;
 import com.github.ocelotwars.service.commands.Command;
 import io.vertx.core.http.ServerWebSocket;
 import rx.Observable;
@@ -22,8 +24,14 @@ public class GameSession {
     private PublishSubject<SocketPlayer> winner;
     private Game game;
 
-    public GameSession(List<SocketPlayer> players, int time) {
-        this(new Game(new Playground()), players, time);
+    public GameSession(PlaygroundFactory playgroundFactory, List<SocketPlayer> players, int time) {
+        this(gameFor(playgroundFactory, players), players, time);
+    }
+
+    private static Game gameFor(PlaygroundFactory playgroundFactory, List<SocketPlayer> socketPlayers) {
+        List<Player> players = socketPlayers.stream().map(SocketPlayer::getPlayer).collect(toList());
+        Playground playground = playgroundFactory.createPlayground(players);
+        return new Game(playground);
     }
 
     public GameSession(Game game, List<SocketPlayer> players, int time) {

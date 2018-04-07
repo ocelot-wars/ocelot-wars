@@ -27,8 +27,7 @@ public class GatherCommandTest {
 
     @Before
     public void before() {
-        playground = new Playground().init(9, 9);
-        ;
+        playground = new Playground(9, 9);
     }
 
     @Test

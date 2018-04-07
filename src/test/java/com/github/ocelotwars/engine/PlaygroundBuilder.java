@@ -15,8 +15,7 @@ public class PlaygroundBuilder {
     }
 
     public Playground create() {
-        Playground playground = new Playground();
-        playground.init(width, height);
+        Playground playground = new Playground(width, height);
         Position position = new Position(4, 16);
         headquarters.forEach(headquarter -> playground.putHeadquarter(headquarter, position));
         units.forEach(unit -> playground.putUnit(unit, position));

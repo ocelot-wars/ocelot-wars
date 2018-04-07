@@ -4,6 +4,12 @@ import static com.almondtools.conmatch.conventions.EqualityMatcher.satisfiesDefa
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.assertThat;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import com.github.ocelotwars.engine.Direction;
 import com.github.ocelotwars.engine.NoSuchAssetException;
 import com.github.ocelotwars.engine.NotUnitOwnerException;
@@ -11,10 +17,6 @@ import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.Playground;
 import com.github.ocelotwars.engine.Position;
 import com.github.ocelotwars.engine.Unit;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class MoveCommandTest {
 
@@ -29,7 +31,7 @@ public class MoveCommandTest {
 
     @Before
     public void before() {
-        playground = new Playground().init(9, 9);
+        playground = new Playground(9, 9);
     }
 
     @Test

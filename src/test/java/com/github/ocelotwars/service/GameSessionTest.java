@@ -4,11 +4,23 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
 import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.command.GatherCommand;
 import com.github.ocelotwars.engine.command.MoveCommand;
@@ -17,14 +29,8 @@ import com.github.ocelotwars.service.commands.Direction;
 import com.github.ocelotwars.service.commands.Gather;
 import com.github.ocelotwars.service.commands.Move;
 import com.github.ocelotwars.service.commands.Unload;
+
 import io.vertx.core.http.ServerWebSocket;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import rx.Observable;
 import rx.plugins.RxJavaHooks;
 import rx.schedulers.TestScheduler;
@@ -37,7 +43,7 @@ public class GameSessionTest {
 
     private TestScheduler scheduler;
 
-    @Mock
+    @Mock(answer=RETURNS_DEEP_STUBS)
     private Game game;
 
     private List<SocketPlayer> players = new ArrayList<>();
@@ -55,6 +61,7 @@ public class GameSessionTest {
         Commands commands = new Commands(singletonList(new Move(1, Direction.EAST)));
         Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.round(0, mq);
 
@@ -69,6 +76,7 @@ public class GameSessionTest {
         Commands commands = new Commands(singletonList(new Gather(1)));
         Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.round(0, mq);
 
@@ -84,6 +92,7 @@ public class GameSessionTest {
         Commands commands = new Commands(singletonList(new Gather(1)));
         Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands));
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.round(0, mq);
 
@@ -99,6 +108,7 @@ public class GameSessionTest {
         Commands commands = new Commands(singletonList(new Gather(1)));
         Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket2, commands));
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.round(0, mq);
 
@@ -115,6 +125,7 @@ public class GameSessionTest {
         Commands commands2 = new Commands(singletonList(new Gather(1)));
         Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket2, commands2), new SocketMessage(socket1, commands1));
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.round(0, mq);
 
@@ -136,6 +147,7 @@ public class GameSessionTest {
             new SocketMessage(socket1, commands1),
             new SocketMessage(socket2, commands3));
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.round(0, mq);
 
@@ -155,6 +167,7 @@ public class GameSessionTest {
         Observable<SocketMessage> mq = Observable.just(new SocketMessage(socket1, commands1), new SocketMessage(socket2, commands2))
             .zipWith(Observable.interval(3, TimeUnit.SECONDS), (message, time) -> message);
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.round(0, mq);
         scheduler.advanceTimeBy(6, TimeUnit.SECONDS);
@@ -170,11 +183,12 @@ public class GameSessionTest {
         players.add(new SocketPlayer("player2", socket2));
         Observable<SocketMessage> mq = Observable.empty();
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.round(0, mq);
 
-        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\"}");
-        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\"}");
+        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\",\"tiles\":[]}");
+        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\",\"tiles\":[]}");
     }
 
     @Test
@@ -189,12 +203,13 @@ public class GameSessionTest {
         PublishSubject<SocketMessage> mq = PublishSubject.create();
 
         GameSession session = new GameSession(game, players, 5);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.rounds(2, mq);
 
         scheduler.advanceTimeBy(1, TimeUnit.SECONDS);
-        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\"}");
-        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\"}");
+        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\",\"tiles\":[]}");
+        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\",\"tiles\":[]}");
         scheduler.advanceTimeBy(2, TimeUnit.SECONDS);
         mq.onNext(new SocketMessage(socket1, commands1));
 
@@ -202,10 +217,11 @@ public class GameSessionTest {
             singletonList(new MoveCommand(new Player("player1"), 1, com.github.ocelotwars.engine.Direction.NORTH)));
 
         Mockito.reset(game, socket1, socket2);
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         scheduler.advanceTimeBy(3, TimeUnit.SECONDS);
-        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\"}");
-        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\"}");
+        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\",\"tiles\":[]}");
+        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\",\"tiles\":[]}");
         mq.onNext(new SocketMessage(socket2, commands2));
 
         verify(game, times(1)).execute(
@@ -228,6 +244,7 @@ public class GameSessionTest {
         session.winner().subscribe(p -> {
             winner[0] = p;
         });
+        when(game.getPlayground().getTiles()).thenReturn(new com.github.ocelotwars.engine.Tile[0][0]);
 
         session.rounds(2, mq);
 

@@ -1,23 +1,24 @@
 package com.github.ocelotwars.playgroundparser;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import java.util.Arrays;
+
+import org.junit.Test;
+
 import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.Playground;
 import com.github.ocelotwars.engine.Position;
-import org.junit.Test;
 
 public class PlaygroundFactoryTest {
 
     @Test
     public void createPlaygroundFromFile_onePlayer() throws Exception {
-        PlaygroundFactory playgroundFactory = new PlaygroundFactory();
+        PlaygroundFactory playgroundFactory = new PlaygroundFactory("src/main/resources/onePlayer");
         Player player = new Player("Test");
         int unitId = 1;
 
-        Playground playground = playgroundFactory.createPlayground(Arrays.asList(player),
-            "src/main/resources/onePlayer");
+        Playground playground = playgroundFactory.createPlayground(asList(player));
 
         assertThat(playground.getTiles().length, is(7));
         assertThat(playground.getTiles()[0].length, is(7));
@@ -32,14 +33,13 @@ public class PlaygroundFactoryTest {
 
     @Test
     public void createPlaygroundFromFile_twoPlayers() throws Exception {
-        PlaygroundFactory playgroundFactory = new PlaygroundFactory();
+        PlaygroundFactory playgroundFactory = new PlaygroundFactory("src/main/resources/twoPlayers");
         Player player1 = new Player("Test1");
         Player player2 = new Player("Test2");
         int unitIdOfPlayer1 = 1;
         int unitIdOfPlayer2 = 2;
 
-        Playground playground = playgroundFactory.createPlayground(Arrays.asList(player1, player2),
-            "src/main/resources/twoPlayers");
+        Playground playground = playgroundFactory.createPlayground(asList(player1, player2));
 
         assertThat(playground.getTiles().length, is(7));
         assertThat(playground.getTiles()[0].length, is(7));
@@ -57,12 +57,11 @@ public class PlaygroundFactoryTest {
 
     @Test
     public void createPlaygroundFromFile_twoPlayers_notEnoughPlayers() throws Exception {
-        PlaygroundFactory playgroundFactory = new PlaygroundFactory();
+        PlaygroundFactory playgroundFactory = new PlaygroundFactory("src/main/resources/twoPlayers");
         Player player1 = new Player("Test1");
         int unitIdOfPlayer1 = 1;
 
-        Playground playground = playgroundFactory.createPlayground(Arrays.asList(player1),
-            "src/main/resources/twoPlayers");
+        Playground playground = playgroundFactory.createPlayground(asList(player1));
 
         assertThat(playground.getTiles().length, is(7));
         assertThat(playground.getTiles()[0].length, is(7));

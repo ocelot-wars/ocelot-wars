@@ -13,16 +13,12 @@ public class Playground {
     private Map<Integer, Unit> units;
     private List<Headquarter> headquarters;
 
-    public Playground() {
+    public Playground(int width, int height) {
         this.units = new HashMap<>();
         this.headquarters = new ArrayList<>();
-    }
-
-    public Playground init(int width, int height) {
         this.width = width;
         this.height = height;
         this.tiles = initTiles(width, height);
-        return this;
     }
 
     private static Tile[][] initTiles(int width, int height) {

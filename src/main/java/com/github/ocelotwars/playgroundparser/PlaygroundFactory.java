@@ -11,17 +11,17 @@ import com.github.ocelotwars.engine.Unit;
 
 public class PlaygroundFactory {
 
-    private Playground playground = null;
-
-    private int unitId = 0;
     private SerializedPlayground serializedPlayground;
+    private Playground playground;
+    private int unitId;
 
-    public Playground createPlayground(List<Player> players, String pathToFile) {
+    public PlaygroundFactory(String pathToFile) {
         serializedPlayground = new SerializedPlayground(pathToFile);
-        playground = new Playground();
-        int height = serializedPlayground.getHeight();
-        int width = serializedPlayground.getWidth();
-        playground.init(width, height);
+        unitId = 0;
+        playground = new Playground(serializedPlayground.getHeight(), serializedPlayground.getWidth());
+    }
+    
+    public Playground createPlayground(List<Player> players) {
         fillPlayground(players);
         return playground;
     }

@@ -1,6 +1,6 @@
 package com.github.ocelotwars.service;
 
-public class Headquarter extends Asset {
+public class Headquarter implements Asset {
 
     private int resources;
 
@@ -10,10 +10,6 @@ public class Headquarter extends Asset {
 
     public int getResources() {
         return resources;
-    }
-
-    public void setResources(int resources) {
-        this.resources = resources;
     }
 
 }

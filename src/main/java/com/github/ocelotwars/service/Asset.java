@@ -1,14 +1,15 @@
 package com.github.ocelotwars.service;
 
-public abstract class Asset {
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
-    private String player;
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "@type")
+@JsonSubTypes({
+    @Type(name = "hq", value = Headquarter.class),
+    @Type(name = "unit", value = Unit.class)
+})
+public interface Asset {
 
-    public void setPlayer(String player) {
-        this.player = player;
-    }
-
-    public String getPlayer() {
-        return player;
-    }
 }
