@@ -60,3 +60,5 @@ spotless {
         eclipse().configFile 'ocelot-wars-code-conventions.xml'	// XML file dumped out by the Eclipse formatter
     }
 }
+
+check.dependsOn jacocoTestReport
