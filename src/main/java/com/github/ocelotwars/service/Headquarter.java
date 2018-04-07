@@ -1,8 +1,12 @@
-package com.github.ocelotwars.service.report;
+package com.github.ocelotwars.service;
 
 public class Headquarter extends Asset {
 
     private int resources;
+
+    public Headquarter(int resources) {
+        this.resources = resources;
+    }
 
     public int getResources() {
         return resources;

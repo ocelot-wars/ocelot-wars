@@ -48,7 +48,7 @@ public class GameSession {
     private void notify(SocketPlayer player) {
         ServerWebSocket socket = player.getSocket();
         try {
-            socket.writeFinalTextFrame(json(new Notify()));
+            socket.writeFinalTextFrame(json(new Notify(player.getOut().convertTiles(game.getPlayground().getTiles()))));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -59,8 +59,11 @@ public class GameSession {
             round = round.flatMap(round -> round(round, mq));
         }
         round.subscribe(round -> {
-            winner.onNext(players.get(0)); // TODO return the player that is
-                                           // winner
+            players.stream().sorted((player1, player2) -> {
+                int resources1 = game.getPlayground().getHeadQuarter(player1.getPlayer()).getResources();
+                int resources2 = game.getPlayground().getHeadQuarter(player1.getPlayer()).getResources();
+                return Integer.compare(resources2, resources1);
+            }).findFirst().ifPresent(winner::onNext);
         });
         return this;
     }
@@ -88,7 +91,7 @@ public class GameSession {
     }
 
     private List<com.github.ocelotwars.engine.Command> convertCommands(SocketPlayer player, List<Command> commands) {
-        CommandFactory commandFactory = new CommandFactory(player.getPlayer());
+        InFactory commandFactory = new InFactory(player.getPlayer());
         return commands.stream()
             .map(commandFactory::convertCommand)
             .collect(toList());

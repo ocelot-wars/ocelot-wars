@@ -7,10 +7,12 @@ public class SocketPlayer {
 
     private Player player;
     private ServerWebSocket socket;
+    private OutFactory out;
 
     public SocketPlayer(String name, ServerWebSocket socket) {
         this.player = new Player(name);
         this.socket = socket;
+        this.out = new OutFactory(player);
     }
 
     public Player getPlayer() {
@@ -25,4 +27,7 @@ public class SocketPlayer {
         return socket;
     }
 
+    public OutFactory getOut() {
+        return out;
+    }
 }

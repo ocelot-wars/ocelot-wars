@@ -11,10 +11,13 @@ public class Game {
     public Game(Playground playground) {
         this.playground = playground;
     }
-
-    public Playground execute(List<Command> commands) {
-        commands.forEach(command -> command.execute(playground));
+    
+    public Playground getPlayground() {
         return playground;
+    }
+
+    public void execute(List<Command> commands) {
+        commands.forEach(command -> command.execute(playground));
     }
 
 }

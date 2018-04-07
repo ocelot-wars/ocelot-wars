@@ -1,9 +1,15 @@
-package com.github.ocelotwars.service.report;
+package com.github.ocelotwars.service;
 
 public class Unit extends Asset {
 
     private int id;
     private int load;
+
+    
+    public Unit(int id, int load) {
+        this.id = id;
+        this.load = load;
+    }
 
     public int getId() {
         return id;

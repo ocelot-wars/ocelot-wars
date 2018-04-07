@@ -1,6 +1,5 @@
-package com.github.ocelotwars.service.report;
+package com.github.ocelotwars.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
@@ -8,8 +7,9 @@ public class Tile {
     private int resources;
     private List<Asset> assets;
 
-    public Tile() {
-        this.assets = new ArrayList<>();
+    public Tile(int resources, List<Asset> assets) {
+        this.resources = resources;
+        this.assets = assets;
     }
 
     public void setResources(int resources) {

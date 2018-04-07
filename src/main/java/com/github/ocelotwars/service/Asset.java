@@ -1,4 +1,4 @@
-package com.github.ocelotwars.service.report;
+package com.github.ocelotwars.service;
 
 public abstract class Asset {
 

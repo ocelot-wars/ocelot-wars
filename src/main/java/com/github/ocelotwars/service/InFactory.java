@@ -10,11 +10,11 @@ import com.github.ocelotwars.service.commands.Gather;
 import com.github.ocelotwars.service.commands.Move;
 import com.github.ocelotwars.service.commands.Unload;
 
-public class CommandFactory {
+public class InFactory {
 
     private Player player;
 
-    public CommandFactory(Player player) {
+    public InFactory(Player player) {
         this.player = player;
     }
 

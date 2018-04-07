@@ -14,12 +14,12 @@ import com.github.ocelotwars.service.commands.Move;
 import com.github.ocelotwars.service.commands.Unload;
 import org.junit.jupiter.api.Test;
 
-class CommandFactoryTest {
+class InFactoryTest {
 
     private static final int UNIT_ID = 1000;
     private Player player = new Player("test player name");
 
-    private CommandFactory commandFactory = new CommandFactory(player);
+    private InFactory commandFactory = new InFactory(player);
 
     @Test
     void convertGatherCommand() {
