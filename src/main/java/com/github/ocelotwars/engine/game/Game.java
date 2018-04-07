@@ -11,7 +11,7 @@ public class Game {
     public Game(Playground playground) {
         this.playground = playground;
     }
-    
+
     public Playground getPlayground() {
         return playground;
     }

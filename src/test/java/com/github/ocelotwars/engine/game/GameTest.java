@@ -32,7 +32,7 @@ public class GameTest {
         List<Command> commands = emptyList();
 
         game.execute(commands);
-        
+
         Playground afterExecution = game.getPlayground();
 
         assertThat(afterExecution.getUnit(player, unitId).getPosition(),
@@ -49,7 +49,7 @@ public class GameTest {
         commands.add(new MoveCommand(player, unitId, EAST));
 
         game.execute(commands);
-        
+
         Playground afterExecution = game.getPlayground();
 
         assertThat(afterExecution.getUnit(player, unitId).getPosition(), is(new Position(5, 16)));
@@ -71,7 +71,7 @@ public class GameTest {
 
         assertThat(beforeExecution.getHeadQuarter(player).getResources(), is(0));
         game.execute(commands);
-        
+
         Playground afterExecution = game.getPlayground();
         assertThat(afterExecution.getHeadQuarter(player).getResources(), is(1));
     }

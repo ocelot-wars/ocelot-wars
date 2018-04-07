@@ -20,7 +20,7 @@ public class PlaygroundFactory {
         unitId = 0;
         playground = new Playground(serializedPlayground.getHeight(), serializedPlayground.getWidth());
     }
-    
+
     public Playground createPlayground(List<Player> players) {
         fillPlayground(players);
         return playground;

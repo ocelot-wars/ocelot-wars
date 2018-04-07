@@ -7,5 +7,5 @@ public class Register implements Message {
     public String getPlayerName() {
         return playerName;
     }
-    
+
 }

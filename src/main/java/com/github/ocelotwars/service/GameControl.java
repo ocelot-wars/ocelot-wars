@@ -1,9 +1,7 @@
 package com.github.ocelotwars.service;
 
 import java.util.List;
-
 import com.github.ocelotwars.playgroundparser.PlaygroundFactory;
-
 import rx.Subscriber;
 import rx.subjects.PublishSubject;
 
@@ -56,7 +54,12 @@ public class GameControl extends Subscriber<GameControlMessage> {
     }
 
     private void run(List<SocketPlayer> players) {
-        PlaygroundFactory playgroundFactory = new PlaygroundFactory("src/main/resources/onePlayer");//TODO set factory matching player number
+        PlaygroundFactory playgroundFactory = new PlaygroundFactory("src/main/resources/onePlayer");// TODO
+                                                                                                    // set
+                                                                                                    // factory
+                                                                                                    // matching
+                                                                                                    // player
+                                                                                                    // number
         GameSession session = new GameSession(playgroundFactory, players, 1)
             .rounds(10, mq);
         session.winner()

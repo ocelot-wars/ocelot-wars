@@ -1,17 +1,15 @@
 package com.github.ocelotwars.service;
 
 import static java.util.stream.Collectors.toList;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.github.ocelotwars.engine.Player;
 
 public class OutFactory {
 
     public OutFactory(Player player) {
     }
-    
+
     public List<List<Tile>> convertTiles(com.github.ocelotwars.engine.Tile[][] tiles) {
         List<List<Tile>> convertedTiles = new ArrayList<>(tiles.length);
         for (int i = 0; i < tiles.length; i++) {
