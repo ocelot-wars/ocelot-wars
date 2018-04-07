@@ -1,9 +1,9 @@
 package com.github.ocelotwars.service;
 
 import static rx.Observable.timer;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vertx.core.http.ServerWebSocket;
 import rx.Observable;
@@ -25,12 +25,8 @@ public class Invitation {
             .subscribe(t -> confirmed.onCompleted());
     }
 
-    private String json(OutMessage msg) {
-        try {
-            return mapper.writeValueAsString(msg);
-        } catch (IOException e) {
-            return null;
-        }
+    private String json(OutMessage msg) throws JsonProcessingException {
+        return mapper.writeValueAsString(msg);
     }
 
     public Invitation invitePlayers(Observable<SocketMessage> mq) {
@@ -45,7 +41,11 @@ public class Invitation {
 
     private void invite(SocketPlayer player) {
         ServerWebSocket socket = player.getSocket();
-        socket.writeFinalTextFrame(json(new Invite()));
+        try {
+            socket.writeFinalTextFrame(json(new Invite()));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void confirm(ServerWebSocket socket) {

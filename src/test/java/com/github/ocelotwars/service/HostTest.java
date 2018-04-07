@@ -7,9 +7,9 @@ import org.junit.Test;
 public class HostTest {
 
     @Test
-    public void testMapMessage() throws Exception {
-        Message register = new Host().mapMessage("{\"@type\":\"register\"}");
-        assertThat(register, instanceOf(Register.class));
-    }
+        public void testFromJson() throws Exception {
+            Message register = new Host().fromJson("{\"@type\":\"register\"}");
+            assertThat(register, instanceOf(Register.class));
+        }
 
 }

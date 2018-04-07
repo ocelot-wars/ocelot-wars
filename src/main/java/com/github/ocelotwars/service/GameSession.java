@@ -1,9 +1,9 @@
 package com.github.ocelotwars.service;
 
 import static java.util.stream.Collectors.toList;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ocelotwars.engine.Playground;
 import com.github.ocelotwars.engine.game.Game;
@@ -35,12 +35,8 @@ public class GameSession {
         this.game = game;
     }
 
-    private String json(OutMessage msg) {
-        try {
-            return mapper.writeValueAsString(msg);
-        } catch (IOException e) {
-            return null;
-        }
+    private String json(OutMessage msg) throws JsonProcessingException {
+        return mapper.writeValueAsString(msg);
     }
 
     public void notifyPlayers() {
@@ -51,7 +47,11 @@ public class GameSession {
 
     private void notify(SocketPlayer player) {
         ServerWebSocket socket = player.getSocket();
-        socket.writeFinalTextFrame(json(new Notify()));
+        try {
+            socket.writeFinalTextFrame(json(new Notify()));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public GameSession rounds(int no, Observable<SocketMessage> mq) {
@@ -59,7 +59,8 @@ public class GameSession {
             round = round.flatMap(round -> round(round, mq));
         }
         round.subscribe(round -> {
-            winner.onNext(players.get(0)); // TODO return the player that is winner
+            winner.onNext(players.get(0)); // TODO return the player that is
+                                           // winner
         });
         return this;
     }

@@ -12,11 +12,13 @@ import rx.subjects.PublishSubject;
 
 public class Host extends AbstractVerticle {
 
+    private ObjectMapper mapper;
     private PublishSubject<SocketMessage> mq;
     private GameControl gameControl;
 
     public Host() {
         mq = PublishSubject.create();
+        mapper = new ObjectMapper();
         timer(5, TimeUnit.SECONDS)
             .map(value -> new SocketMessage(new Start()))
             .subscribe(msg -> mq.onNext(msg));
@@ -42,17 +44,17 @@ public class Host extends AbstractVerticle {
 
     public void message(WebSocketFrame frame, ServerWebSocket socket) {
         String text = frame.textData();
-        Message msg = mapMessage(text);
-        mq.onNext(new SocketMessage(socket, msg));
+        try {
+            Message msg = fromJson(text);
+            System.out.println("message:" + text + "->" + msg.getClass().getName());
+            mq.onNext(new SocketMessage(socket, msg));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    protected Message mapMessage(String message) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.readValue(message, Message.class);
-        } catch (IOException e) {
-            return null;
-        }
+    protected Message fromJson(String message) throws IOException {
+        return mapper.readValue(message, Message.class);
     }
 
 }
