@@ -3,7 +3,6 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
         classpath "com.diffplug.spotless:spotless-plugin-gradle:3.8.0"
     }
 }
@@ -15,13 +14,17 @@ repositories {
 
 apply plugin: 'java-library'
 apply plugin: 'jacoco'
-apply plugin: 'org.junit.platform.gradle.plugin'
 apply plugin: 'com.diffplug.gradle.spotless'
 
 sourceCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform {
+    }
 }
 
 dependencies {
@@ -43,23 +46,12 @@ dependencies {
     testCompileOnly 'org.apiguardian:apiguardian-api:1.0.0'
 }
 
-jacoco {
-    toolVersion = '0.7.9'
-    applyTo junitPlatformTest
-}
-
 jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
         xml.destination file("${buildDir}/reports/jacoco/report.xml")
         html.destination file("${buildDir}/reports/jacoco/report-html")
-    }
-}
-
-junitPlatformTest {
-    jacoco {
-        destinationFile = file("$buildDir/jacoco/test.exec")
     }
 }
 
