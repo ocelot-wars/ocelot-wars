@@ -17,6 +17,7 @@ import com.github.ocelotwars.service.commands.Direction;
 import com.github.ocelotwars.service.commands.Gather;
 import com.github.ocelotwars.service.commands.Move;
 import com.github.ocelotwars.service.commands.Unload;
+import io.vertx.core.http.ServerWebSocket;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,7 +25,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import io.vertx.core.http.ServerWebSocket;
 import rx.Observable;
 import rx.plugins.RxJavaHooks;
 import rx.schedulers.TestScheduler;
@@ -173,8 +173,8 @@ public class GameSessionTest {
 
         session.round(0, mq);
 
-        verify(socket1).writeFinalTextFrame("{\"@type\":\"Notify\"}");
-        verify(socket2).writeFinalTextFrame("{\"@type\":\"Notify\"}");
+        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\"}");
+        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\"}");
     }
 
     @Test
@@ -193,8 +193,8 @@ public class GameSessionTest {
         session.rounds(2, mq);
 
         scheduler.advanceTimeBy(1, TimeUnit.SECONDS);
-        verify(socket1).writeFinalTextFrame("{\"@type\":\"Notify\"}");
-        verify(socket2).writeFinalTextFrame("{\"@type\":\"Notify\"}");
+        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\"}");
+        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\"}");
         scheduler.advanceTimeBy(2, TimeUnit.SECONDS);
         mq.onNext(new SocketMessage(socket1, commands1));
 
@@ -204,8 +204,8 @@ public class GameSessionTest {
         Mockito.reset(game, socket1, socket2);
 
         scheduler.advanceTimeBy(3, TimeUnit.SECONDS);
-        verify(socket1).writeFinalTextFrame("{\"@type\":\"Notify\"}");
-        verify(socket2).writeFinalTextFrame("{\"@type\":\"Notify\"}");
+        verify(socket1).writeFinalTextFrame("{\"@type\":\"notify\"}");
+        verify(socket2).writeFinalTextFrame("{\"@type\":\"notify\"}");
         mq.onNext(new SocketMessage(socket2, commands2));
 
         verify(game, times(1)).execute(
