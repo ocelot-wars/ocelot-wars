@@ -7,6 +7,7 @@ import static java.util.Collections.emptyList;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import com.github.ocelotwars.engine.Command;
 import com.github.ocelotwars.engine.Headquarter;
@@ -17,6 +18,7 @@ import com.github.ocelotwars.engine.Unit;
 import com.github.ocelotwars.engine.command.GatherCommand;
 import com.github.ocelotwars.engine.command.MoveCommand;
 import com.github.ocelotwars.engine.command.UnloadCommand;
+import com.github.ocelotwars.engine.victory.TimeOutVictoryCondition;
 import org.junit.Test;
 
 public class GameTest {
@@ -27,7 +29,7 @@ public class GameTest {
     @Test
     public void execute_EmptyListOfCommands() throws Exception {
         Playground beforeExecution = createDefaultPlayground(player, unitId);
-        Game game = new Game(beforeExecution);
+        Game game = new Game(beforeExecution,new HashMap<>(),new TimeOutVictoryCondition(10));
 
         List<Command> commands = emptyList();
 
@@ -43,7 +45,7 @@ public class GameTest {
     public void execute_OneMoveRight() throws Exception {
 
         Playground beforeExecution = createDefaultPlayground(player, unitId);
-        Game game = new Game(beforeExecution);
+        Game game = new Game(beforeExecution,new HashMap<>(),new TimeOutVictoryCondition(10));
 
         List<Command> commands = new ArrayList<>();
         commands.add(new MoveCommand(player, unitId, EAST));
@@ -59,7 +61,7 @@ public class GameTest {
     public void execute_gatheringOfResource() throws Exception {
 
         Playground beforeExecution = createDefaultPlayground(player, unitId);
-        Game game = new Game(beforeExecution);
+        Game game = new Game(beforeExecution,new HashMap<>(),new TimeOutVictoryCondition(10));
 
         List<Command> commands = new ArrayList<>();
         commands.add(new MoveCommand(player, unitId, EAST));
@@ -77,9 +79,13 @@ public class GameTest {
     }
 
     private Playground createDefaultPlayground(Player player, int unitId) {
-        Playground beforeExecution = playground().withHeight(32).withWidth(32).withHeadquarter(new Headquarter(player))
-            .withUnit(new Unit(player, unitId)).withResource(new Position(6, 16), 5).create();
-        return beforeExecution;
+        return playground()
+            .withHeight(32)
+            .withWidth(32)
+            .withHeadquarter(new Headquarter(player))
+            .withUnit(new Unit(player, unitId))
+            .withResource(new Position(6, 16), 5)
+            .create();
     }
 
     // Game kann Commands verarbeiten
