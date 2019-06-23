@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Playground {
 
@@ -53,7 +54,7 @@ public class Playground {
     }
 
     public Unit getUnit(Player player, int unitId) {
-        Unit unit = units.get(Integer.valueOf(unitId));
+        Unit unit = units.get(unitId);
         if (unit == null) {
             throw NoSuchAssetException.forUnit(unitId);
         }
@@ -61,6 +62,11 @@ public class Playground {
             throw NotUnitOwnerException.forPlayerAndUnit(player, unitId);
         }
         return unit;
+    }
+    public List<Unit> getUnits(Player player){
+        return units.values().stream()
+            .filter(unit -> player.equals(unit.getOwner()))
+            .collect(Collectors.toList());
     }
 
     public Tile getTileAt(Position targetPosition) {
