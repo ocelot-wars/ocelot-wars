@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class PlaygroundBuilderTest {
     @Test
-    public void createsPlayground_widthAndHeight() throws Exception {
+    public void createsPlayground_widthAndHeight()   {
         Playground playground = playground().withHeight(32).withWidth(32).create();
 
         assertThat(playground.getTiles().length, is(32));
@@ -15,7 +15,7 @@ public class PlaygroundBuilderTest {
     }
 
     @Test
-    public void createsPlayground_HeadquarterAndUnitForPlayer() throws Exception {
+    public void createsPlayground_HeadquarterAndUnitForPlayer()   {
         Player player = new Player("Player");
         Headquarter headquarter = new Headquarter(player);
         Unit unit = new Unit(player, 1);
@@ -33,5 +33,20 @@ public class PlaygroundBuilderTest {
         Playground playground = playground().withHeight(32).withWidth(32).withResource(position, 5).create();
 
         assertThat(playground.getTileAt(position).getResources(), is(5));
+        assertThat(playground.getFullResourceNumber(),is(5));
+    }
+
+    @Test
+    public void createsPlayground_getFullResourceNumber() {
+        Position firstPosition = new Position(11, 7);
+        Position secondPostion = new Position(28, 16);
+        Playground playground = playground().withHeight(32).withWidth(32)
+            .withResource(firstPosition,13)
+            .withResource(secondPostion, 5)
+            .create();
+
+        assertThat(playground.getTileAt(firstPosition).getResources(), is(13));
+        assertThat(playground.getTileAt(secondPostion).getResources(), is(5));
+        assertThat(playground.getFullResourceNumber(),is(18));
     }
 }

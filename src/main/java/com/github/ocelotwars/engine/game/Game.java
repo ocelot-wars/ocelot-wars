@@ -35,6 +35,10 @@ public class Game {
         commands.forEach(command -> command.execute(playground));
     }
 
+
+
+
+
     public void run() {
         while (!victory.isOver(this)) {
             System.out.println("Runde:"+round);

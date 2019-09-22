@@ -1,9 +1,6 @@
 package com.github.ocelotwars.engine;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Playground {
@@ -53,6 +50,15 @@ public class Playground {
         tile.setResources(resources);
     }
 
+    public int getFullResourceNumber(){
+        return Arrays.stream(tiles)
+            .mapToInt(tileArray -> Arrays.stream(tileArray)
+                .mapToInt(Tile::getResources)
+                .sum())
+            .sum();
+    }
+
+
     public Unit getUnit(Player player, int unitId) {
         Unit unit = units.get(unitId);
         if (unit == null) {
@@ -68,6 +74,7 @@ public class Playground {
             .filter(unit -> player.equals(unit.getOwner()))
             .collect(Collectors.toList());
     }
+
 
     public Tile getTileAt(Position targetPosition) {
         return tiles[targetPosition.x][targetPosition.y];
