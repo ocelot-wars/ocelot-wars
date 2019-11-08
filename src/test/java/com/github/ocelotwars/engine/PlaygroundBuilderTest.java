@@ -1,9 +1,13 @@
 package com.github.ocelotwars.engine;
 
+import org.junit.Test;
+
+import java.util.List;
+
 import static com.github.ocelotwars.engine.PlaygroundBuilder.playground;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import org.junit.Test;
 
 public class PlaygroundBuilderTest {
     @Test
@@ -48,5 +52,22 @@ public class PlaygroundBuilderTest {
         assertThat(playground.getTileAt(firstPosition).getResources(), is(13));
         assertThat(playground.getTileAt(secondPostion).getResources(), is(5));
         assertThat(playground.getFullResourceNumber(),is(18));
+    }
+
+    @Test
+    public void createsPlayground_getUnits() {
+        Player player1 = new Player("player1");
+        Player player2 = new Player("player2");
+        Unit unit = new Unit(player2, 3);
+        Playground playground = playground().withHeight(32).withWidth(32)
+            .withUnit(new Unit(player1, 1))
+            .withUnit(new Unit(player1, 2))
+            .withUnit(unit)
+            .create();
+
+        List<Unit> units = playground.getUnits(player2);
+        assertThat(playground.getUnits(player1), hasSize(2));
+        assertThat(units, hasSize(1));
+        assertThat(units.get(0), is(unit));
     }
 }

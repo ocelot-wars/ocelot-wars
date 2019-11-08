@@ -1,11 +1,11 @@
-package com.github.ocelotwars.engine.victory;
+package com.github.ocelotwars.engine.gameover;
 
 import com.github.ocelotwars.engine.game.Game;
 
-public class TimeOutVictoryCondition implements VictoryCondition {
+public class TimeOutGameOverCondition implements GameOverCondition {
     private int maxRounds;
 
-    public TimeOutVictoryCondition(int maxRounds) {
+    public TimeOutGameOverCondition(int maxRounds) {
         this.maxRounds = maxRounds;
     }
 

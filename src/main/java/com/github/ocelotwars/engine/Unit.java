@@ -11,6 +11,10 @@ public class Unit extends Asset {
         this.id = id;
     }
 
+    public Unit(Unit unit) {
+        this(unit.getOwner(), unit.getId());
+    }
+
     public int getId() {
         return id;
     }

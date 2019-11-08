@@ -19,6 +19,7 @@ public class Playground {
         this.tiles = initTiles(width, height);
     }
 
+
     private static Tile[][] initTiles(int width, int height) {
         Tile[][] tiles = new Tile[width][height];
         for (int x = 0; x < tiles.length; x++) {
@@ -50,14 +51,18 @@ public class Playground {
         tile.setResources(resources);
     }
 
-    public int getFullResourceNumber(){
-        return Arrays.stream(tiles)
+    public int getFullResourceNumber() {
+        int unitResources = units.values()
+            .stream()
+            .mapToInt(Unit::getLoad)
+            .sum();
+        int playgroundResources = Arrays.stream(tiles)
             .mapToInt(tileArray -> Arrays.stream(tileArray)
                 .mapToInt(Tile::getResources)
                 .sum())
             .sum();
+        return unitResources + playgroundResources;
     }
-
 
     public Unit getUnit(Player player, int unitId) {
         Unit unit = units.get(unitId);
@@ -69,12 +74,13 @@ public class Playground {
         }
         return unit;
     }
-    public List<Unit> getUnits(Player player){
-        return units.values().stream()
+
+    public List<Unit> getUnits(Player player) {
+        return units.values()
+            .stream()
             .filter(unit -> player.equals(unit.getOwner()))
             .collect(Collectors.toList());
     }
-
 
     public Tile getTileAt(Position targetPosition) {
         return tiles[targetPosition.x][targetPosition.y];
@@ -85,7 +91,9 @@ public class Playground {
     }
 
     public Headquarter getHeadQuarter(Player player) {
-        return headquarters.stream().filter(hq -> player.equals(hq.getOwner())).findFirst()
+        return headquarters.stream()
+            .filter(hq -> player.equals(hq.getOwner()))
+            .findFirst()
             .orElseThrow(() -> NoSuchAssetException.forHeadquarter(player));
     }
 

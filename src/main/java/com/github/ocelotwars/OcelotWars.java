@@ -4,9 +4,9 @@ import com.github.ocelotwars.engine.Player;
 import com.github.ocelotwars.engine.Playground;
 import com.github.ocelotwars.engine.commandsource.CommandSource;
 import com.github.ocelotwars.engine.game.Game;
-import com.github.ocelotwars.engine.victory.LessThanResourcesLeftVictoryCondition;
-import com.github.ocelotwars.engine.victory.TimeOutVictoryCondition;
+import com.github.ocelotwars.engine.gameover.LessThanResourcesLeftGameOverCondition;
 import com.github.ocelotwars.playgroundparser.PlaygroundFactory;
+import com.github.ocelotwars.victory.ResourceVictoryEvaluator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class OcelotWars {
             commandSources.put(player, instantiate(commandSourceClassName, player));
         }
         Playground playground = playgroundFactory.createPlayground(players);
-        Game game = new Game(playground, commandSources, new LessThanResourcesLeftVictoryCondition(1));
+        Game game = new Game(playground, commandSources, new LessThanResourcesLeftGameOverCondition(1), new ResourceVictoryEvaluator());
         game.run();
     }
 
